@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.0"
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
+	kotlin("plugin.noarg") version "1.9.22"
 }
 
 group = "kr.co.yunhalee"
@@ -23,6 +24,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("com.h2database:h2")
+}
+
+noArg {
+	annotation("com.my.Annotation")
 }
 
 tasks.withType<KotlinCompile> {

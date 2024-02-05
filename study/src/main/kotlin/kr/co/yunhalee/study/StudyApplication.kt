@@ -1,7 +1,5 @@
-package kr.co.yunhalee.transaction
+package kr.co.yunhalee.study
 
-import kr.co.yunhalee.transaction.service.ParentService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

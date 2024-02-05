@@ -1,7 +1,7 @@
-package kr.co.yunhalee.transaction.service
+package kr.co.yunhalee.study.transaction.service
 
-import kr.co.yunhalee.transaction.repository.Entity
-import kr.co.yunhalee.transaction.repository.Repository
+import kr.co.yunhalee.study.transaction.repository.Entity
+import kr.co.yunhalee.study.transaction.repository.Repository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

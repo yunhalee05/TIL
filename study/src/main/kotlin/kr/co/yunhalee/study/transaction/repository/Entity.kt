@@ -1,4 +1,4 @@
-package kr.co.yunhalee.transaction.repository
+package kr.co.yunhalee.study.transaction.repository
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
