@@ -1,10 +1,10 @@
-package kr.co.yunhalee.transaction
+package kr.co.yunhalee.study.springbatch
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TransactionApplicationTests {
+class SpringbatchApplicationTests {
 
 	@Test
 	fun contextLoads() {

@@ -24,6 +24,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("com.h2database:h2")
+
+	// spring batch
+	implementation("org.springframework.batch:spring-batch-core")
+
 }
 
 noArg {
