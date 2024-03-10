@@ -1,6 +1,5 @@
 package kr.co.yunhalee.study.springbatch.configuration.batchconfigurer
 
-import kr.co.yunhalee.study.springbatch.configuration.executioncontext.ExecutionContextConfiguration
 import kr.co.yunhalee.study.springbatch.infrastructure.Constants
 import org.springframework.batch.core.JobExecution
 import org.springframework.batch.core.JobExecutionListener
@@ -10,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
-
 @Component
 @ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = BatchConfigurationConfiguration.JOB_NAME)
 class JobRepositoryListener(
@@ -19,12 +17,12 @@ class JobRepositoryListener(
 
     override fun afterJob(jobExecution: JobExecution) {
         val jobName = jobExecution.jobInstance.jobName
-        val jobParameters = JobParametersBuilder().addString("requestDate", LocalDateTime.now().toString()).toJobParameters()
+        val jobParameters = jobExecution.jobParameters
         val lastExecution: JobExecution? = jobRepository.getLastJobExecution(jobName, jobParameters)
         lastExecution?.let {
             for (execution in lastExecution.stepExecutions) {
                 val status = execution.status
-                println("BatchStatus = " + status.isRunning)
+                println("BatchIsRunning = " + status.isRunning)
                 println("BatchStatus = " + status.name)
             }
         }
