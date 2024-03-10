@@ -1,4 +1,4 @@
-package kr.co.yunhalee.study.springbatch.configuration.batchconfigurer
+package kr.co.yunhalee.study.springbatch.configuration.jobrepository
 
 import com.zaxxer.hikari.HikariDataSource
 import kr.co.yunhalee.study.springbatch.infrastructure.Constants
