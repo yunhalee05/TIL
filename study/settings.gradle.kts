@@ -1,2 +1,2 @@
 rootProject.name = "study"
-include "springbatch"
+include(":springbatch")

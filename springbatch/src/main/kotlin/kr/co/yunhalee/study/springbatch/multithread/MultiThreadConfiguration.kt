@@ -1,31 +1,31 @@
-package kr.co.yunhalee.study.springbatch.configuration.chunk
+package kr.co.yunhalee.study.springbatch.configuration.async
 
 import kr.co.yunhalee.study.springbatch.infrastructure.Constants
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
-import org.springframework.batch.core.job.builder.FlowBuilder
 import org.springframework.batch.core.job.builder.JobBuilder
-import org.springframework.batch.core.job.flow.Flow
 import org.springframework.batch.core.repository.JobRepository
 import org.springframework.batch.core.step.builder.StepBuilder
-import org.springframework.batch.item.ItemProcessor
-import org.springframework.batch.item.support.ListItemReader
+import org.springframework.batch.integration.async.AsyncItemWriter
+import org.springframework.batch.item.ItemWriter
+import org.springframework.batch.item.support.SynchronizedItemReader
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import org.springframework.transaction.PlatformTransactionManager
 import java.util.Locale
 
 
 @Configuration
-@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = ChunkConfiguration.JOB_NAME)
-class ChunkConfiguration(
+@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = AsyncConfiguration.JOB_NAME)
+class AsyncConfiguration(
     private val jobRepository: JobRepository
 ) {
 
     companion object {
-        const val JOB_NAME = "simpleChunkWithFlow"
+        const val JOB_NAME = "async"
     }
 
     @Bean
@@ -57,13 +57,21 @@ class ChunkConfiguration(
     fun step2(transactionManager: PlatformTransactionManager): Step {
         return StepBuilder("step2", jobRepository)
             .chunk<String, String>(3, transactionManager)
-            .reader(ListItemReader(listOf("data1", "data2", "data3", "data4", "data5", "data6", "data7", "data8", "data9", "data10")))
+            .reader(SynchronizedItemReader(CustomItemReader(listOf("data1", "data2", "data3", "data4", "data5", "data6", "data7", "data8", "data9", "data10"))))
+            // 동기화 이슈 확인
+//            .reader(CustomItemReader(listOf("data1", "data2", "data3", "data4", "data5", "data6", "data7", "data8", "data9", "data10")))
             .processor { item -> item.uppercase(Locale.getDefault()) }
             .writer { list ->
                 println("-------start chunk write--------")
-                list.forEach{ println(it) }
+                list.forEach { println(it) }
                 println("-------finish chunk write--------")
             }
+            .taskExecutor(ThreadPoolTaskExecutor().apply {
+                maxPoolSize = 5
+                maxPoolSize = 8
+                setThreadNamePrefix("async-thread")
+            })
+//            .throttleLimit(4) // 5.0부터 deprecated 됨
             .build()
     }
 
@@ -74,29 +82,5 @@ class ChunkConfiguration(
             .next(step2)
             .build()
     }
-
-
-    @Bean
-    fun step3(transactionManager: PlatformTransactionManager, job2:Job): Step {
-        return StepBuilder("step3", jobRepository)
-            .job(job2)
-            .build()
-    }
-
-    @Bean
-    fun step4(transactionManager: PlatformTransactionManager, flow: Flow): Step {
-        return StepBuilder("step4", jobRepository)
-            .flow(flow)
-            .build()
-    }
-
-    @Bean
-    fun flow(transactionManager: PlatformTransactionManager, step2: Step): Flow {
-        val flowBuilder: FlowBuilder<Flow> = FlowBuilder<Flow>("flow")
-        flowBuilder.start(step2)
-            .end()
-        return flowBuilder.build()
-    }
-
 
 }

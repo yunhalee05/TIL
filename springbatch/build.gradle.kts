@@ -30,6 +30,7 @@ dependencies {
 
     // spring batch
     implementation("org.springframework.batch:spring-batch-core")
+    implementation("org.springframework.batch:spring-batch-integration")
 }
 
 noArg {
