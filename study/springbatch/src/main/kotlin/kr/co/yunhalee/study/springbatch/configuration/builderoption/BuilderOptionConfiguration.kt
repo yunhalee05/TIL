@@ -1,11 +1,14 @@
-package kr.co.yunhalee.study.springbatch.configuration.flowjob
+package kr.co.yunhalee.study.springbatch.configuration.builderoption
 
 import kr.co.yunhalee.study.springbatch.infrastructure.Constants
+import org.springframework.batch.core.BatchStatus
+import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.job.builder.FlowBuilder
 import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.job.flow.Flow
+import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.repository.JobRepository
 import org.springframework.batch.core.step.builder.StepBuilder
 import org.springframework.batch.repeat.RepeatStatus
@@ -16,40 +19,36 @@ import org.springframework.transaction.PlatformTransactionManager
 
 
 @Configuration
-@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = FlowJobConfiguration.JOB_NAME)
-class FlowJobConfiguration(
+@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = BuilderOptionConfiguration.JOB_NAME)
+class BuilderOptionConfiguration(
     private val jobRepository: JobRepository
 ) {
 
     companion object {
-        const val JOB_NAME = "flowJob"
+        const val JOB_NAME = "builder-option"
     }
-
-//    @Bean
-//    fun job1(step1: Step, step2: Step): Job {
-//        return JobBuilder("withoutFlowJob", jobRepository)
-//            .start(step1)
-//            .next(step2)
-//            .build()
-//    }
-
 
     @Bean
-    fun job2(step2: Step, flow: Flow): Job {
-        return JobBuilder("withFlowJob", jobRepository)
-            .start(flow)
+    fun job1(step1: Step, step2: Step): Job {
+        return JobBuilder("withoutFlowJob", jobRepository)
+            .incrementer(RunIdIncrementer())
+            .validator(ParameterValidator())
+            .preventRestart()
+            .start(step1)
             .next(step2)
-            .end()
             .build()
     }
+
 
     @Bean
     fun step1(transactionManager: PlatformTransactionManager): Step {
         return StepBuilder("step1", jobRepository)
-            .tasklet({ _, _ ->
+            .tasklet({ contribution, chunkContext ->
                 println(" ============================")
                 println(" >> step1 has executed")
                 println(" ============================")
+                chunkContext.stepContext.stepExecution.status = BatchStatus.FAILED
+                contribution.exitStatus = ExitStatus.STOPPED
                 RepeatStatus.FINISHED
             }, transactionManager)
             .build()
@@ -61,40 +60,6 @@ class FlowJobConfiguration(
             .tasklet({ _, _ ->
                 println(" ============================")
                 println(" >> step2 has executed")
-                println(" ============================")
-                RepeatStatus.FINISHED
-            }, transactionManager)
-            .build()
-    }
-
-    @Bean
-    fun flow(step3: Step, step4: Step): Flow {
-        val flowBuilder: FlowBuilder<Flow> = FlowBuilder<Flow>("flow")
-        flowBuilder.start(step3)
-            .next(step4)
-            .end()
-        return flowBuilder.build()
-    }
-
-
-    @Bean
-    fun step3(transactionManager: PlatformTransactionManager): Step {
-        return StepBuilder("step3", jobRepository)
-            .tasklet({ _, _ ->
-                println(" ============================")
-                println(" >> step3 has executed")
-                println(" ============================")
-                RepeatStatus.FINISHED
-            }, transactionManager)
-            .build()
-    }
-
-    @Bean
-    fun step4(transactionManager: PlatformTransactionManager): Step {
-        return StepBuilder("step4", jobRepository)
-            .tasklet({ _, _ ->
-                println(" ============================")
-                println(" >> step4 has executed")
                 println(" ============================")
                 RepeatStatus.FINISHED
             }, transactionManager)
