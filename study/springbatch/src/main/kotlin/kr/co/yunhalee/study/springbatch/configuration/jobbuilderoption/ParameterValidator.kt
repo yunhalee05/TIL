@@ -1,8 +1,7 @@
-package kr.co.yunhalee.study.springbatch.configuration.builderoption
+package kr.co.yunhalee.study.springbatch.configuration.jobbuilderoption
 
 import org.springframework.batch.core.JobParameters
 import org.springframework.batch.core.JobParametersValidator
-import org.springframework.batch.item.validator.Validator
 
 class ParameterValidator : JobParametersValidator {
     override fun validate(parameters: JobParameters?) {

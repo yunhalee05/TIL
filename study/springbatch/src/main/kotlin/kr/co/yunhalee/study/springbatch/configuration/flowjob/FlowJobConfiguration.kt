@@ -35,10 +35,15 @@ class FlowJobConfiguration(
 
 
     @Bean
-    fun job2(step2: Step, flow: Flow): Job {
+    fun job2(step1: Step, step2: Step, step3: Step, flow: Flow): Job {
         return JobBuilder("withFlowJob", jobRepository)
             .start(flow)
             .next(step2)
+            .start(step1)
+            .on("COMPLETED").to(step2)
+            .from(step1)
+            .on("FAILED")
+            .to(step3)
             .end()
             .build()
     }

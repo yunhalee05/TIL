@@ -1,14 +1,11 @@
-package kr.co.yunhalee.study.springbatch.configuration.builderoption
+package kr.co.yunhalee.study.springbatch.configuration.stepbuilderoption
 
 import kr.co.yunhalee.study.springbatch.infrastructure.Constants
 import org.springframework.batch.core.BatchStatus
 import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
-import org.springframework.batch.core.job.builder.FlowBuilder
 import org.springframework.batch.core.job.builder.JobBuilder
-import org.springframework.batch.core.job.flow.Flow
-import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.repository.JobRepository
 import org.springframework.batch.core.step.builder.StepBuilder
 import org.springframework.batch.repeat.RepeatStatus
@@ -19,21 +16,18 @@ import org.springframework.transaction.PlatformTransactionManager
 
 
 @Configuration
-@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = BuilderOptionConfiguration.JOB_NAME)
-class BuilderOptionConfiguration(
+@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = StepBuilderOptionConfiguration.JOB_NAME)
+class StepBuilderOptionConfiguration(
     private val jobRepository: JobRepository
 ) {
 
     companion object {
-        const val JOB_NAME = "builder-option"
+        const val JOB_NAME = "step-builder-option"
     }
 
     @Bean
     fun job1(step1: Step, step2: Step): Job {
-        return JobBuilder("withoutFlowJob", jobRepository)
-            .incrementer(RunIdIncrementer())
-            .validator(ParameterValidator())
-            .preventRestart()
+        return JobBuilder("job", jobRepository)
             .start(step1)
             .next(step2)
             .build()
@@ -47,10 +41,9 @@ class BuilderOptionConfiguration(
                 println(" ============================")
                 println(" >> step1 has executed")
                 println(" ============================")
-                chunkContext.stepContext.stepExecution.status = BatchStatus.FAILED
-                contribution.exitStatus = ExitStatus.STOPPED
                 RepeatStatus.FINISHED
             }, transactionManager)
+            .allowStartIfComplete(true)
             .build()
     }
 
@@ -63,6 +56,7 @@ class BuilderOptionConfiguration(
                 println(" ============================")
                 RepeatStatus.FINISHED
             }, transactionManager)
+            .startLimit(3)
             .build()
     }
 
