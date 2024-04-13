@@ -1,0 +1,65 @@
+package com.yunhalee.springbatch.configuration.chunk
+
+import com.yunhalee.springbatch.infrastructure.Constants
+import org.springframework.batch.core.Job
+import org.springframework.batch.core.Step
+import org.springframework.batch.core.job.builder.JobBuilder
+import org.springframework.batch.core.repository.JobRepository
+import org.springframework.batch.core.step.builder.StepBuilder
+import org.springframework.batch.repeat.RepeatStatus
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.transaction.PlatformTransactionManager
+import java.util.Locale
+
+
+@Configuration
+@ConditionalOnProperty(Constants.PROPERTY_JOB_NAME, havingValue = StreamReaderChunkConfiguration.JOB_NAME)
+class StreamReaderChunkConfiguration(
+    private val jobRepository: JobRepository
+) {
+
+    companion object {
+        const val JOB_NAME = "streamReaderChunk"
+    }
+
+    @Bean
+    fun job1(step1: Step, step2: Step): Job {
+        return JobBuilder("job", jobRepository)
+            .start(step1)
+            .next(step2)
+            .build()
+    }
+
+
+    @Bean
+    fun step1(transactionManager: PlatformTransactionManager): Step {
+        return StepBuilder("step1", jobRepository)
+            .tasklet({ contribution, chunkContext ->
+                println(" ============================")
+                println(" >> step1 has executed")
+                println(" ============================")
+//                chunkContext.stepContext.stepExecution.status = BatchStatus.FAILED
+//                contribution.exitStatus = ExitStatus.STOPPED
+                RepeatStatus.FINISHED
+            }, transactionManager)
+            .build()
+    }
+
+    @Bean
+    fun step2(transactionManager: PlatformTransactionManager): Step {
+        return StepBuilder("step2", jobRepository)
+            .chunk<String, String>(3, transactionManager)
+            .reader(StreamReader(listOf("data1", "data2", "data3", "data4", "data5", "data6", "data7", "data8", "data9", "data10")))
+            .processor { item -> item.uppercase(Locale.getDefault()) }
+            .writer { list ->
+                println("-------start chunk write--------")
+                list.forEach{ println(it) }
+                println("-------finish chunk write--------")
+            }
+            .build()
+    }
+
+
+}
