@@ -1,6 +1,7 @@
 package com.yunhalee.concurrency_practice.service;
 
 import com.yunhalee.concurrency_practice.domain.Coupon;
+import com.yunhalee.concurrency_practice.producer.CouponCreateProducer;
 import com.yunhalee.concurrency_practice.repository.CouponCountRepository;
 import com.yunhalee.concurrency_practice.repository.CouponRepository;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,12 @@ public class ApplyService {
 
     private final CouponCountRepository couponCountRepository;
 
-    public ApplyService(CouponRepository couponRepository, CouponCountRepository couponCountRepository) {
+    private final CouponCreateProducer couponCreateProducer;
+
+    public ApplyService(CouponRepository couponRepository, CouponCountRepository couponCountRepository, CouponCreateProducer couponCreateProducer) {
         this.couponRepository = couponRepository;
         this.couponCountRepository = couponCountRepository;
+        this.couponCreateProducer = couponCreateProducer;
     }
 
     public void apply(Long userId) {
@@ -24,7 +28,6 @@ public class ApplyService {
             return;
         }
 
-        couponRepository.save(new Coupon(userId));
-
+        couponCreateProducer.create(userId);
     }
 }
