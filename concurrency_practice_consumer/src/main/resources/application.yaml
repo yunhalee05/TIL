@@ -1,6 +1,6 @@
 spring:
   application:
-    name: concurrency_practice
+    name: concurrency_practice_consumer
   jpa:
     hibernate:
       ddl-auto: create

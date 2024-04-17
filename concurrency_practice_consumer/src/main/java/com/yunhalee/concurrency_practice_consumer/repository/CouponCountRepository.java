@@ -1,7 +1,5 @@
-package com.yunhalee.concurrency_practice.repository;
+package com.yunhalee.concurrency_practice_consumer.repository;
 
-import com.yunhalee.concurrency_practice.domain.Coupon;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 

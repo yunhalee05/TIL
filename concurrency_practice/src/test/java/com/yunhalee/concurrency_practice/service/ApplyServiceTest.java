@@ -1,6 +1,9 @@
 package com.yunhalee.concurrency_practice.service;
 
+import com.yunhalee.concurrency_practice.repository.CouponCountRepository;
 import com.yunhalee.concurrency_practice.repository.CouponRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +22,14 @@ class ApplyServiceTest {
 
     @Autowired
     private CouponRepository couponRepository;
+
+    @Autowired
+    private CouponCountRepository couponCountRepository;
+
+    @AfterEach
+    public void clear() {
+        couponCountRepository.clear();
+    }
 
     @Test
     public void 한번만응모() {
@@ -44,6 +55,7 @@ class ApplyServiceTest {
         }
 
         latch.await();
+        Thread.sleep(10000);
         long count = couponRepository.count();
         assertEquals(100, count);
     }
