@@ -5,5 +5,6 @@ include("springbatch")
 include("multithread")
 include("concurrency_practice")
 include("concurrency_practice_consumer")
+include("concurrency_coroutine")
 include("spring_db")
 
