@@ -2,20 +2,27 @@ package com.yunhalee.spring_db.repository;
 
 import com.yunhalee.spring_db.connection.DBConnectionUtil;
 import com.yunhalee.spring_db.domain.Member;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.support.JdbcUtils;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.NoSuchElementException;
 
 /**
- * JDBC - Driver Manager 사용
+ * JDBC - DataSource, JdbcUtils 사용
  */
-public class MemberRepositoryVO {
+public class MemberRepositoryV1 {
 
-    private Logger log = LoggerFactory.getLogger(MemberRepositoryVO.class);
+    private Logger log = LoggerFactory.getLogger(MemberRepositoryV1.class);
+    private final DataSource dataSource;
+
+    public MemberRepositoryV1(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
 
     public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id, money) values (?, ?)";
@@ -111,32 +118,14 @@ public class MemberRepositoryVO {
 
 
     private void close(Connection con, Statement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                log.info("erorr", e);
-            }
-        }
-
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                log.info("erorr", e);
-            }
-        }
-
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                log.info("erorr", e);
-            }
-        }
+        JdbcUtils.closeResultSet(rs);
+        JdbcUtils.closeStatement(stmt);
+        JdbcUtils.closeConnection(con);
     }
 
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
+    private Connection getConnection() throws SQLException {
+        Connection con = dataSource.getConnection();
+        log.info("get connectin={}, class={}", con, con.getClass());
+        return con;
     }
 }
