@@ -46,7 +46,7 @@ class MemberRepositoryV1Test {
         Member memberById = repositoryV1.findById(member.getMemberId());
         assertThat(memberById).isNotNull();
 
-        // update: moeny: 10000 -> 20000
+        // update: money: 10000 -> 20000
         repositoryV1.update(member.getMemberId(), 20000);
         Member updatedMember = repositoryV1.findById(member.getMemberId());
         assertEquals(updatedMember.getMoney(), 20000);
