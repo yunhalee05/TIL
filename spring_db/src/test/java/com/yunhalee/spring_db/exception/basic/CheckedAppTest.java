@@ -1,4 +1,4 @@
-package com.yunhalee.spring_db.exception;
+package com.yunhalee.spring_db.exception.basic;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

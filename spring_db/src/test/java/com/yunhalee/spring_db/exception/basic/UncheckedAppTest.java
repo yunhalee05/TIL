@@ -1,10 +1,9 @@
-package com.yunhalee.spring_db.exception;
+package com.yunhalee.spring_db.exception.basic;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.ConnectException;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
