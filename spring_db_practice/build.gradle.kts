@@ -6,7 +6,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
-//    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 //    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //    implementation("com.querydsl:querydsl-jpa")
 //    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jpa")
