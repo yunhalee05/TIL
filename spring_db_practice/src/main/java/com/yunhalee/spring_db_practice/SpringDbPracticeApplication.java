@@ -1,9 +1,6 @@
 package com.yunhalee.spring_db_practice;
 
-import com.yunhalee.spring_db_practice.config.JdbcTemplateV1Config;
-import com.yunhalee.spring_db_practice.config.JdbcTemplateV2Config;
-import com.yunhalee.spring_db_practice.config.JdbcTemplateV3Config;
-import com.yunhalee.spring_db_practice.config.MemoryConfig;
+import com.yunhalee.spring_db_practice.config.*;
 import com.yunhalee.spring_db_practice.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-@Import(JdbcTemplateV3Config.class)
+@Import(MyBatisConfig.class)
 @SpringBootApplication(scanBasePackages = "com.yunhalee.spring_db_practice.web")
 public class SpringDbPracticeApplication {
 
