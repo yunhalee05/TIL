@@ -7,6 +7,8 @@ import com.yunhalee.spring_db_practice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -24,6 +26,8 @@ class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
+
+    private final Logger log = LoggerFactory.getLogger(ItemRepositoryTest.class);
 
 //    @Autowired
 //    PlatformTransactionManager transactionManager;
@@ -69,6 +73,7 @@ class ItemRepositoryTest {
         //when
         ItemUpdateDto updateParam = new ItemUpdateDto("item2", 20000, 30);
         itemRepository.update(itemId, updateParam);
+        log.info("JpaItemRepository class={}", itemRepository.getClass());
 
         //then
         Item findItem = itemRepository.findById(itemId).get();
