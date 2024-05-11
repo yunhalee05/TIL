@@ -2,11 +2,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
+    val kotlinVersion = "1.9.23"
+
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 allprojects {
     group = "com.yunhalee"
@@ -14,28 +21,51 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "17"
+        }
+    }
 }
 
-tasks.getByName<BootJar>("bootJar") {
+tasks.bootJar {
     enabled = false
 }
 
-tasks.getByName<Jar>("jar") {
+tasks.jar {
     enabled = true
 }
+
 
 subprojects {
 
     apply {
+        plugin("java")
         plugin("kotlin")
         plugin("kotlin-kapt")
         plugin("io.spring.dependency-management")
         plugin("kotlin-spring")
         plugin("org.springframework.boot")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.jetbrains.kotlin.plugin.spring")
     }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
+    }
+
+    configurations.forEach {
+        it.exclude(module = "slf4j-log4j12")
+        it.exclude(module = "log4j-slf4j-impl")
     }
 
     dependencies {

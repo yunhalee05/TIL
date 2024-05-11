@@ -1,4 +1,4 @@
-package com.yunhalee.concurrency_coroutine
+package com.yunhalee.concurrency.coroutine
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,5 +9,4 @@ class ConcurrencyCoroutineApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

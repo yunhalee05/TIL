@@ -1,6 +1,6 @@
-package com.yunhalee.concurrency_coroutine.service
+package com.yunhalee.concurrency.coroutine.service
 
-import com.yunhalee.concurrency_coroutine.repository.MemberRepository
+import com.yunhalee.concurrency.coroutine.repository.MemberRepository
 import kotlinx.coroutines.delay
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -33,11 +33,8 @@ class MemberService(
             delay(3000)
             memberRepository.save(member)
             println("--------------------updatemember thread sleep 끝  ---------- member: ${member.id}")
-
-
         }
     }
-
 
     @Transactional
     fun delete2(name: String) {
@@ -64,11 +61,6 @@ class MemberService(
             Thread.sleep(3000)
             memberRepository.save(member)
             println("--------------------updatemember thread sleep 끝  ---------- member: ${member.id}")
-
-
         }
     }
-
-
-
 }

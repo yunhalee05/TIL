@@ -1,4 +1,4 @@
-package com.yunhalee.concurrency_coroutine
+package com.yunhalee.concurrency.coroutine
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

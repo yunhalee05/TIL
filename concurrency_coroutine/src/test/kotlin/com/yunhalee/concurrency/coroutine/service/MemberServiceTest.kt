@@ -1,20 +1,16 @@
-package com.yunhalee.concurrency_coroutine.service
+package com.yunhalee.concurrency.coroutine.service
 
-import com.yunhalee.concurrency_coroutine.domain.Member
-import com.yunhalee.concurrency_coroutine.repository.MemberRepository
+import com.yunhalee.concurrency.coroutine.domain.Member
+import com.yunhalee.concurrency.coroutine.repository.MemberRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionTemplate
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
-
 
 @SpringBootTest
 class MemberServiceTest {
@@ -29,7 +25,6 @@ class MemberServiceTest {
 
     @Autowired
     private lateinit var transactionTemplate: TransactionTemplate
-
 
 //    @BeforeEach
 //    fun setUp() {
@@ -49,7 +44,6 @@ class MemberServiceTest {
 //            job1.await()
 //            job2.await()
 //        }
-
 
         runBlocking {
             val a = async {
@@ -77,7 +71,6 @@ class MemberServiceTest {
 //
 //            println("$a + $b")
 //        }
-
     }
 
     @Test
@@ -101,11 +94,10 @@ class MemberServiceTest {
 // 두 개의 스레드가 종료될 때까지 대기
         deleteThread.join()
         updateThread.join()
-
     }
 
+    //    @Throws(InterruptedException::class)
     @Test
-//    @Throws(InterruptedException::class)
     fun test3() {
         member = memberRepository.save(Member(1, "testUser4"))
         memberRepository.save(member)
@@ -121,18 +113,4 @@ class MemberServiceTest {
         }
         latch.await()
     }
-
-}
-
-@Component
-@Transactional // *트랜잭션 A*
-class Test(
-    private val memberService: MemberService
-) {
-
-    fun save() {
-        member = memberRepository.save(Member(1, "testUser4"))
-
-    }
-
 }
