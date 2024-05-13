@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,17 +59,19 @@ public class JpaItemRepositoryV3 implements ItemRepository {
         Integer maxPrice = cond.getMaxPrice();
         String itemName = cond.getItemName();
 
-        QItem item = QItem.item;
+//        QItem item = QItem.item;
+//
+//        if (StringUtils.hasText(itemName) && maxPrice != null) {
+//            return repository.findItems(itemName, maxPrice);
+//        } else if (StringUtils.hasText(itemName)) {
+//            return repository.findByItemNameLike("%" + itemName + "%");
+//        } else if (maxPrice != null) {
+//            return repository.findByPriceLessThanEqual(maxPrice);
+//        } else {
+//            return repository.findAll();
+//        }
 
-        if (StringUtils.hasText(itemName) && maxPrice != null) {
-            return repository.findItems(itemName, maxPrice);
-        } else if (StringUtils.hasText(itemName)) {
-            return repository.findByItemNameLike("%" + itemName + "%");
-        } else if (maxPrice != null) {
-            return repository.findByPriceLessThanEqual(maxPrice);
-        } else {
-            return repository.findAll();
-        }
+        return new ArrayList<>();
     }
 
 }
