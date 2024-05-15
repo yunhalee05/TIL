@@ -29,7 +29,7 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public String item(@PathVariable long itemId, Model model) {
+    public String item(@PathVariable(name = "itemId") long itemId, Model model) {
         Item item = itemService.findById(itemId).get();
         model.addAttribute("item", item);
         return "item";
@@ -49,14 +49,14 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}/edit")
-    public String editForm(@PathVariable Long itemId, Model model) {
+    public String editForm(@PathVariable(name = "itemId") Long itemId, Model model) {
         Item item = itemService.findById(itemId).get();
         model.addAttribute("item", item);
         return "editForm";
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute ItemUpdateDto updateParam) {
+    public String edit(@PathVariable(name = "itemId") Long itemId, @ModelAttribute ItemUpdateDto updateParam) {
         itemService.update(itemId, updateParam);
         return "redirect:/items/{itemId}";
     }

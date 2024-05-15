@@ -25,14 +25,14 @@ import static com.yunhalee.spring_db_practice.domain.QItem.item;
  */
 @Repository
 @Transactional
-public class JpaItemRepositoryV3 implements ItemRepository {
+public class ItemQueryRepositoryV1 implements ItemRepository {
 
-    private Logger log = LoggerFactory.getLogger(JpaItemRepositoryV3.class);
+    private Logger log = LoggerFactory.getLogger(ItemQueryRepositoryV1.class);
 
     private final EntityManager em;
     private final JPAQueryFactory query;
 
-    public JpaItemRepositoryV3(EntityManager em) {
+    public ItemQueryRepositoryV1(EntityManager em) {
         this.em = em;
         this.query = new JPAQueryFactory(em);
     }

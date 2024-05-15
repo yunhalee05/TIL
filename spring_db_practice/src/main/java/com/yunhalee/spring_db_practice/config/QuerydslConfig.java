@@ -1,8 +1,7 @@
 package com.yunhalee.spring_db_practice.config;
 
 import com.yunhalee.spring_db_practice.repository.ItemRepository;
-import com.yunhalee.spring_db_practice.repository.jpa.JpaItemRepositoryV1;
-import com.yunhalee.spring_db_practice.repository.jpa.JpaItemRepositoryV3;
+import com.yunhalee.spring_db_practice.repository.jpa.ItemQueryRepositoryV1;
 import com.yunhalee.spring_db_practice.service.ItemService;
 import com.yunhalee.spring_db_practice.service.ItemServiceV1;
 import jakarta.persistence.EntityManager;
@@ -25,7 +24,7 @@ public class QuerydslConfig {
 
     @Bean
     public ItemRepository itemRepository() {
-        return new JpaItemRepositoryV3(em);
+        return new ItemQueryRepositoryV1(em);
     }
 
 }
