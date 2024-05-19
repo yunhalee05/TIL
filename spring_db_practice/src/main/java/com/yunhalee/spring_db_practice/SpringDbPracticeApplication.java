@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Import(V2Config.class)
-@SpringBootApplication(scanBasePackages = "com.yunhalee.spring_db_practice.web")
+@SpringBootApplication(scanBasePackages = {"com.yunhalee.spring_db_practice.web", "com.yunhalee.spring_db_practice.service.order", "com.yunhalee.spring_db_practice.repository.order"})
 public class SpringDbPracticeApplication {
 
     private final Logger log = LoggerFactory.getLogger(SpringDbPracticeApplication.class);
