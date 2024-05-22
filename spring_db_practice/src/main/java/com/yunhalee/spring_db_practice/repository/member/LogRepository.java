@@ -4,6 +4,7 @@ import com.yunhalee.spring_db_practice.domain.Log;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class LogRepository {
         this.em = em;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void save(Log logMessage) {
         log.info("log 저장");
         em.persist(logMessage);

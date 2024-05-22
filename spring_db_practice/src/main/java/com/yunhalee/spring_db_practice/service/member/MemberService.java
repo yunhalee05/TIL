@@ -7,6 +7,7 @@ import com.yunhalee.spring_db_practice.repository.member.LogRepository;
 import com.yunhalee.spring_db_practice.repository.member.MemberRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberService {
@@ -21,6 +22,7 @@ public class MemberService {
         this.logRepository = logRepository;
     }
 
+    @Transactional
     public void joinV1(String username) {
         Member member = new Member(username);
         Log logMessage = new Log(username);
@@ -34,6 +36,7 @@ public class MemberService {
         log.info("== logRepository 호출 종료 ==");
     }
 
+    @Transactional
     public void joinV2(String username) {
         Member member = new Member(username);
         Log logMessage = new Log(username);
