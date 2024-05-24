@@ -6,6 +6,7 @@ include("multithread")
 include("concurrency_practice")
 include("concurrency_practice_consumer")
 include("concurrency_coroutine")
+include("concurrency_redisson")
 include("spring_db")
 include("spring_db_practice")
 
