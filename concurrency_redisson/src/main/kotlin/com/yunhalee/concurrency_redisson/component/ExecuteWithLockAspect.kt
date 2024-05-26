@@ -1,6 +1,6 @@
 package com.yunhalee.concurrency_redisson.component
 
-import com.yunhalee.concurrency_redisson.infrastructure.ExecuteWithLock
+import com.yunhalee.concurrency_redisson.infrastructure.annotation.ExecuteWithLock
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -82,5 +82,4 @@ private class ExecuteWithLockAspect(
             .getOrNull(1)
             ?.substringBefore(appender) ?: throw RuntimeException("Invalid key expression")
     }
-
 }
