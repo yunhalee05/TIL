@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional
 
 @Aspect
 @Component
-
 private class ExecuteWithLockAspect(
     private val redissonClient: RedissonClient
 ) {
