@@ -22,7 +22,7 @@ private class ExecuteWithLockAspect(
 
     private val parser: ExpressionParser = SpelExpressionParser()
 
-    @Around("")
+    @Around("@annotation(com.yunhalee.concurrency_redisson.infrastructure.annotation.ExecuteWithLock)")
     @Transactional(propagation = Propagation.NEVER)
     fun executeWithRedissonLock(proceedingJoinPoint: ProceedingJoinPoint): Any? {
         val annotation = getAnnotation(proceedingJoinPoint)

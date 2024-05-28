@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CouponRepository : JpaRepository<Coupon, Long> {
     fun countAllByPromotionId(promotionId: Long): Int
+
+    fun existsByUserIdAndPromotionId(userId: Long, promotionId: Long): Boolean
 }

@@ -5,6 +5,7 @@ import com.yunhalee.concurrency_redisson.domain.user.User
 import com.yunhalee.concurrency_redisson.repository.coupon.CouponRepository
 import com.yunhalee.concurrency_redisson.repository.user.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -38,14 +39,14 @@ class CouponServiceTest {
 
     @BeforeEach
     fun setUp() {
-        userRepository.saveAll((1..1000).map { index ->
+        users = userRepository.saveAll((1..1000).map { index ->
             User(name = "user$index", email = "user$index@test.com", phone = "010-1234-568$index")
         }.toList())
         promotion = Promotion(price = 3000L, startAt = LocalDateTime.now(), endAt = LocalDateTime.now().plusDays(7))
     }
 
 
-    @DisplayName("발급을 요청하면 쿠폰을 발행한다")
+    @DisplayName("정상 쿠폰 발급 로직 테스트")
     @Test
     fun `쿠폰을 발급한다`() {
         // when
@@ -53,6 +54,33 @@ class CouponServiceTest {
 
         // then
         assertEquals(1, couponRepository.count())
+    }
+
+    @DisplayName("정상 쿠폰 발급 로직 테스트")
+    @Test
+    fun `동일한 사용자가 동일한 프로모션에 대해 중복 발급을 요청하면 예외를 발생시킨다")`() {
+        // given
+        sut.issueCoupon(users[0].id, promotion.id)
+
+        // when / then
+        assertThatThrownBy { sut.issueCoupon(users[0].id, promotion.id) }
+            .isInstanceOf(RuntimeException::class.java)
+            .hasMessage("해당 프로모션 쿠폰은 한사람 당 하나만 발행이 가능합니다. 이미 발급된 쿠폰이 존재합니다.")
+    }
+
+    @DisplayName("정상 쿠폰 발급 로직 테스트")
+    @Test
+    fun `쿠폰 발급의 갯수가 쿠폰 발행 제한 갯수를 넘으면, 예외가 발생한다`() {
+        // given
+        val limit = 100
+        (0..99).forEach { index ->
+            sut.issueCoupon(users[index].id, promotion.id, limit)
+        }
+
+        // when / then
+        assertThatThrownBy { sut.issueCoupon(users[100].id, promotion.id, limit) }
+            .isInstanceOf(RuntimeException::class.java)
+            .hasMessage("이미 발급 가능한 쿠폰 갯수가 소진되었습니다.")
     }
 
     @DisplayName("RedissonLock을 적용하지 않은 케이스 테스트 입니다.")
@@ -90,8 +118,8 @@ class CouponServiceTest {
 //            futures.forEach { it.get() }
 //        }
 
-        assertThat(couponRepository.countAllByPromotionId(promotionId = promotion.id)).isEqualTo(couponLimit)
- }
+        assertThat(couponRepository.countAllByPromotionId(promotionId = promotion.id)).isGreaterThan(couponLimit)
+    }
 
     @DisplayName("RedissonLock을 적용하여 동시성 이슈를 해결한 테스트 케이스 입니다.")
     @Test
