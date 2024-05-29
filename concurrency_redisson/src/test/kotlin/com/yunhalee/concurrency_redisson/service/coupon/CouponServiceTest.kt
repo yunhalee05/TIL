@@ -123,21 +123,56 @@ class CouponServiceTest {
 
     @DisplayName("RedissonLock을 적용하여 동시성 이슈를 해결한 테스트 케이스 입니다.")
     @Test
-    fun `동시에 토큰 만료 요청에도 동시성 이슈가 발생하지 않는다`() {
+    fun `동시에 쿠폰 발급 요청에도 동시성 이슈가 발생하지 않는다`() {
+//        // given
+//        val numberOfThreads = 2
+//        val executorService = Executors.newFixedThreadPool(numberOfThreads)
+//        val futures = mutableListOf<Future<*>>()
+//
+//        // when
+//        repeat(numberOfThreads) {
+//            futures.add(executorService.submit { sut.issueCoupon(1L, promotion.id) })
+//        }
+//        executorService.shutdown()
+//
+//        // then
+//        assertDoesNotThrow {
+//            futures.forEach { it.get() }
+//        }
+
         // given
-        val numberOfThreads = 2
+        val couponLimit = 100
+        val numberOfThreads = 1000
         val executorService = Executors.newFixedThreadPool(numberOfThreads)
-        val futures = mutableListOf<Future<*>>()
+//        val futures = mutableListOf<Future<*>>()
 
-        // when
-        repeat(numberOfThreads) {
-            futures.add(executorService.submit { sut.issueCoupon(1L, promotion.id) })
+        val latch = CountDownLatch(numberOfThreads)
+        for (i in 0 until numberOfThreads) {
+            val userId = i.toLong()
+            executorService.submit {
+                try {
+                    sut.issueCoupon(userId, promotion.id, couponLimit)
+                } finally {
+                    latch.countDown()
+                }
+            }
         }
-        executorService.shutdown()
 
-        // then
-        assertDoesNotThrow {
-            futures.forEach { it.get() }
-        }
+        latch.await()
+        Thread.sleep(10000)
+
+
+//        repeat(numberOfThreads) {
+//            futures.add(executorService.submit { sut.issueCoupon(1L, promotion.id) })
+//        }
+//        executorService.shutdown()
+
+//        // then
+//        val exception = assertThrows<ExecutionException> {
+//            futures.forEach { it.get() }
+//        }
+
+        assertThat(couponRepository.countAllByPromotionId(promotionId = promotion.id)).isEqualTo(couponLimit)
+
     }
 }
