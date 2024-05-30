@@ -40,8 +40,10 @@ private class ExecuteWithLockAspect(
             Thread.currentThread().interrupt()
             throw RuntimeException("Lock 획득 중 InterruptedException이 발생하여 삭제를 중단합니다.", e)
         } finally {
-            lock.unlock()
-            println("--------------lock 해제됨 --------------------------")
+            if (lock.isHeldByCurrentThread) {
+                lock.unlock()
+                println("--------------lock 해제됨 --------------------------")
+            }
         }
     }
 
