@@ -3,7 +3,7 @@ package com.yunhalee.concurrency_redisson.service.coupon
 import com.yunhalee.concurrency_redisson.domain.coupon.Coupon
 import com.yunhalee.concurrency_redisson.infrastructure.annotation.ExecuteWithLock
 import com.yunhalee.concurrency_redisson.repository.coupon.CouponRepository
-import com.yunhalee.concurrency_redisson.repository.redis.RedisKeyRepository
+import com.yunhalee.concurrency_redisson.service.coupon.redis.RedissonCouponService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit
@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit
 @Service
 class CouponService(
     private val couponRepository: CouponRepository,
-    private val redisKeyRepository: RedisKeyRepository
 ) {
 
     @Transactional
@@ -41,20 +40,6 @@ class CouponService(
         }
         couponRepository.save(Coupon(userId = userId, promotionId = promotionId))
         println("쿠폰 발급 완료  userId: $userId, promotionId: $promotionId, count: $count + 발급 카운트 ${couponRepository.countAllByPromotionId(promotionId)}")
-    }
-
-    @Transactional
-    fun issueCoupon3(userId: Long, promotionId: Long, count: Int = 1) {
-        if (redisKeyRepository.getKey(promotionId) == null) {
-            throw RuntimeException("처리할 수 없습니다.")
-        }
-        if (couponRepository.existsByUserIdAndPromotionId(userId, promotionId)) {
-            throw RuntimeException("해당 프로모션 쿠폰은 한사람 당 하나만 발행이 가능합니다. 이미 발급된 쿠폰이 존재합니다.")
-        }
-        if (couponRepository.countAllByPromotionId(promotionId) >= count) {
-            throw RuntimeException("이미 발급 가능한 쿠폰 갯수가 소진되었습니다.")
-        }
-        couponRepository.save(Coupon(userId = userId, promotionId = promotionId))
     }
 
 }

@@ -5,6 +5,7 @@ import com.yunhalee.concurrency_redisson.domain.user.User
 import com.yunhalee.concurrency_redisson.repository.coupon.CouponRepository
 import com.yunhalee.concurrency_redisson.repository.promotion.PromotionRepository
 import com.yunhalee.concurrency_redisson.repository.user.UserRepository
+import com.yunhalee.concurrency_redisson.service.coupon.redis.RedissonCouponService
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
@@ -37,6 +38,9 @@ class CouponServiceTest {
 
     @Autowired
     private lateinit var promotionRepository: PromotionRepository
+
+    @Autowired
+    private lateinit var redissonCouponService: RedissonCouponService
 
     private lateinit var users: List<User>
     private lateinit var promotion: Promotion
@@ -139,6 +143,34 @@ class CouponServiceTest {
             executorService.submit {
                 try {
                     sut.issueCoupon2(userId, promotion.id, couponLimit)
+                } finally {
+                    latch.countDown()
+                }
+            }
+        }
+
+        latch.await()
+        Thread.sleep(10000)
+
+        assertThat(couponRepository.countAllByPromotionId(promotionId = promotion.id)).isEqualTo(couponLimit)
+
+    }
+
+
+    @DisplayName("RedissonLock을 적용하여 동시성 이슈를 해결한 테스트 케이스 입니다.")
+    @Test
+    fun `redissonLock를 이용해 동시에 쿠폰 발급 요청에도 동시성 이슈가 발생하지 않는다`() {
+        // given
+        val couponLimit = 100
+        val numberOfThreads = 1000
+        val executorService = Executors.newFixedThreadPool(numberOfThreads)
+
+        val latch = CountDownLatch(numberOfThreads)
+        for (i in 0 until numberOfThreads) {
+            val userId = i.toLong()
+            executorService.submit {
+                try {
+                    redissonCouponService.issueCoupon(userId, promotion.id, couponLimit)
                 } finally {
                     latch.countDown()
                 }
