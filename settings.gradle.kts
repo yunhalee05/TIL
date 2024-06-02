@@ -9,4 +9,5 @@ include("concurrency_coroutine")
 include("concurrency_redisson")
 include("spring_db")
 include("spring_db_practice")
+include("kafka")
 
