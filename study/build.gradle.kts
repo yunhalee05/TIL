@@ -17,6 +17,10 @@ dependencies {
     testImplementation("io.kotest:kotest-property:5.1.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.0")
+
+    // object mapper
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 }
 
 noArg {
