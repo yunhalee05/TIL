@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: webclient
+server:
+  port: 8080
+logging:
+  level:
+    reactor:
+      netty:
+        http:
+          client:
+            HttpClient: DEBUG
+    org:
+      springframework:
+        web:
+          reactive:
+            function:
+              client:
+                ExchangeFunctions: DEBUG
+                WebClient: DEBUG
