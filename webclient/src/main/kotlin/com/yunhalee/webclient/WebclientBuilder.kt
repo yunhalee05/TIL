@@ -34,7 +34,7 @@ class WebClientBuilder {
             .pendingAcquireMaxCount(-1)
             .evictInBackground(Duration.ofSeconds(30))
             .build()
-        return webClient.baseUrl("http://localhost:8080/test")
+        return webClient.baseUrl("http://localhost:8080")
             .clientConnector(ReactorClientHttpConnector(
                 HttpClient
                     .create(provider)
@@ -44,7 +44,7 @@ class WebClientBuilder {
                     .wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)
         )
             )
-            .exchangeStrategies(ExchangeStrategies.builder().codecs { it.defaultCodecs().enableLoggingRequestDetails(true) }.build())
+//            .exchangeStrategies(ExchangeStrategies.builder().codecs { it.defaultCodecs().enableLoggingRequestDetails(true) }.build())
 //            .codecs { it.defaultCodecs().enableLoggingRequestDetails(true) }
             .defaultHeaders { headers.forEach { header -> it.add(header.key, header.value) } }
 

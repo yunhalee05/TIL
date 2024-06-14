@@ -1,9 +1,11 @@
 package com.yunhalee.webclient
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.util.LinkedMultiValueMap
 import java.lang.RuntimeException
 import kotlin.reflect.full.memberProperties
 
@@ -19,34 +21,50 @@ class WebclientTest {
     private lateinit var webclientWithoutUriFactory: ApiClient
 
 
+    private val data = TestSearchData(
+        name = listOf("+!@#$%%^&*();:'=+,/?[]", "testName"),
+        age = listOf(20, 30),
+        grade = 1
+    )
+
+
     @Test
     fun `+가 포함된 문자열을 encoder를 사용하지 않는 요청으로 보냈을 때 제대로 decode 되지 않는다`() {
+        val request = LinkedMultiValueMap<String, String>()
+        data.name.forEach { request.add("name", it) }
+        data.age.forEach { request.add("age", it.toString()) }
+        request.add("grade", data.grade.toString())
+        val response = webclientWithoutUriFactory.getForObject("/test", request, TestSearchData::class.java, RuntimeException::class.java)!!
+        assertThat(response.name.first()).isNotEqualTo(data.name[0])
+        // + 값이 빈 공백으로 대체된다.
+        assertThat(response.name.first()).isEqualTo(data.name[0].replace("+", " "))
+    }
+
+    @Test
+    fun `+가 포함된 문자열은 encoder를 사용하는 요청으로 보냈을 때 제대로 decode 된다`() {
+        val request = LinkedMultiValueMap<String, String>()
+        data.name.forEach { request.add("name", it) }
+        data.age.forEach { request.add("age", it.toString()) }
+        request.add("grade", data.grade.toString())
+        val response = webclientWithUriFactory.getForObjectWithUrlEncoder("/test", request, TestSearchData::class.java, RuntimeException::class.java)!!
+        assertThat(response.name.first()).isEqualTo(data.name[0])
+    }
+
+
+    @Test
+    fun `+가 포함된 문자열을 encode factory를 사용하지 않고 {} 문자열을 사용해 원본으로 보내도록 하고 숫자문자열을 구분하지 않는 요청으로 보냈을 때 일반 숫자가 문자열로 전달된다`() {
         val request = TestSearchData(
             name = listOf("+!@#$%%^&*();:'=+,/?[]"),
             age = listOf(20, 30),
             grade = 1
         )
         val map: Map<String, String> = TestSearchData::class.memberProperties.associate { it.name to it.call(request).toString() }
-        println(map)
-        val response = webclientWithoutUriFactory.getForObject("", mapOf("tets" to "key"), String::class.java, RuntimeException::class.java)
-        println(response)
-    }
-
-
-    @Test
-    fun `+가 포함된 문자열을 encoder를 사용하고 숫자문자열을 구분하지 않는 요청으로 보냈을 때 일반 숫자가 문자열로 전달된다`() {
-        val request = TestSearchData(
-            name = listOf("+!@#$%%^&*();:'=+,/?[]"),
-            age = listOf(20, 30),
-            grade = 1
-        )
-        val map: Map<String, String> = TestSearchData::class.memberProperties.associate { it.name to it.call(request).toString() }
-        val response = webclientWithUriFactory.getForObjectWithEncodedQueryParamsWithoutNumber("", map, String::class.java, RuntimeException::class.java)
+        val response = webclientWithoutUriFactory.getForObjectWithEncodedQueryParamsWithoutNumber("/test", map, String::class.java, RuntimeException::class.java)
         println(response)
     }
 
     @Test
-    fun `+가 포함된 문자열을 encoder를 사용하고 숫자문자열을 구분하는 요청으로 보냈을 때 제대로 decode 된다`() {
+    fun `+가 포함된 문자열을 {} 문자열을 사용해 원본으로 보내도록 하고 encoder를 사용하고 숫자문자열을 구분하는 요청으로 보냈을 때 제대로 decode 된다`() {
         val request = TestSearchData(
             name = listOf("+!@#$%%^&*();:'=+,/?[]"),
             age = listOf(20, 30),

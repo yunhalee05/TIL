@@ -10,11 +10,11 @@ logging:
         http:
           client:
             HttpClient: DEBUG
-    org:
-      springframework:
-        web:
-          reactive:
-            function:
-              client:
-                ExchangeFunctions: DEBUG
-                WebClient: DEBUG
+#    org:
+#      springframework:
+#        web:
+#          reactive:
+#            function:
+#              client:
+#                ExchangeFunctions: DEBUG
+#                WebClient: DEBUG
