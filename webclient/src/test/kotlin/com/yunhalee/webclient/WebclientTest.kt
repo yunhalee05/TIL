@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.util.LinkedMultiValueMap
 import java.lang.RuntimeException
+import java.net.URLEncoder
 import kotlin.reflect.full.memberProperties
 
 @SpringBootTest
@@ -52,26 +53,32 @@ class WebclientTest {
 
 
     @Test
-    fun `+가 포함된 문자열을 encode factory를 사용하지 않고 {} 문자열을 사용해 원본으로 보내도록 하고 숫자문자열을 구분하지 않는 요청으로 보냈을 때 일반 숫자가 문자열로 전달된다`() {
+    fun `+가 포함된 문자열을 encode factory를 사용하지 않고 {} 문자열을 사용해 원본으로 보냈을 때 ,가 포함되지 않으면 제대로 decode 된다`() {
         val request = TestSearchData(
-            name = listOf("+!@#$%%^&*();:'=+,/?[]"),
+            name = listOf("+!@#$%%^&*();:'=+/?[]"),
             age = listOf(20, 30),
             grade = 1
         )
-        val map: Map<String, String> = TestSearchData::class.memberProperties.associate { it.name to it.call(request).toString() }
-        val response = webclientWithoutUriFactory.getForObjectWithEncodedQueryParamsWithoutNumber("/test", map, String::class.java, RuntimeException::class.java)
-        println(response)
+        val map: Map<String, String> = TestSearchData::class.memberProperties.associate {
+            val value = it.call(request)
+            it.name to if (value is List<*>) value.joinToString(",") else value.toString()
+        }
+        val response = webclientWithoutUriFactory.getForObjectWithEncodedQueryParamsWithoutNumber("/test", map, TestSearchData::class.java, RuntimeException::class.java)!!
+        assertThat(response.name.first()).isEqualTo(data.name[0].replace(",", ""))
     }
 
     @Test
-    fun `+가 포함된 문자열을 {} 문자열을 사용해 원본으로 보내도록 하고 encoder를 사용하고 숫자문자열을 구분하는 요청으로 보냈을 때 제대로 decode 된다`() {
+    fun `+가 포함된 문자열을 {} 문자열을 사용해 원본으로 보내도록 하고 encoder를 사용하고 숫자문자열을 구분하는 요청으로 보냈을 때 , 가 포함되면 제대로 decode 하지 못한다`() {
         val request = TestSearchData(
             name = listOf("+!@#$%%^&*();:'=+,/?[]"),
             age = listOf(20, 30),
             grade = 1
         )
-        val map: Map<String, String> = TestSearchData::class.memberProperties.associate { it.name to it.call(request).toString() }
-        val response = webclientWithUriFactory.getForObjectWithEncodedQueryParamsWithNumber("", map, String::class.java, RuntimeException::class.java)
-        println(response)
+        val map: Map<String, String> = TestSearchData::class.memberProperties.associate {
+            val value = it.call(request)
+            it.name to if (value is List<*>) value.joinToString(",") else value.toString()
+        }
+        val response = webclientWithoutUriFactory.getForObjectWithEncodedQueryParamsWithNumber("/test", map, TestSearchData::class.java, RuntimeException::class.java)!!
+        assertThat(response.name.first()).isEqualTo(data.name[0].substringBefore(","))
     }
 }

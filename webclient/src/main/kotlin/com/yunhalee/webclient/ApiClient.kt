@@ -43,6 +43,9 @@ class ApiClient(
             .block()
     }
 
+
+
+
     fun <T, E : RuntimeException> getForObjectWithEncodedQueryParamsWithoutNumber(path: String, queryParams: Map<String, String>, returnType: Class<T>, exception: Class<E>): T? {
         return client.get()
             .uri { builder: UriBuilder ->
@@ -50,7 +53,6 @@ class ApiClient(
                     .apply {
                         queryParams.keys.forEach { key ->
                             queryParam(key, "{$key}")
-
                         }
                     }
                     .build(queryParams)
@@ -99,35 +101,6 @@ class ApiClient(
     }
 
 
-    fun <T, E : RuntimeException> getForObjectForTest(path: String, queryParams: Map<String, String>, returnType: Class<T>, exception: Class<E>): T? {
-        return client.get()
-            .uri { builder: UriBuilder ->
-                builder.path(path)
-                    .apply {
-                        queryParams.keys.forEach { key ->
-                            if (key.toIntOrNull() == null) {
-                                queryParam(key, "{$key}")
-                            }
-                        }
-                    }
-                    .build(queryParams)
-            }
-            .retrieve()
-            .bodyToMono(returnType)
-            .retryWhen(Retry.backoff(3, Duration.ofMillis(1000)).filter { it is SocketException })
-            .timeout(Duration.ofMillis(property.timeout))
-            .onErrorMap { throwable -> exception.getDeclaredConstructor(String::class.java).newInstance(throwable.message) }
-            .block()
-    }
 
-//    class AccountsPrivateServiceApiClient(
-//        private val apiClient: HttpPropertyApiClient,
-//        private val accountsPrivateServiceProperties: AccountsPrivateServiceProperties
-//    ) : AccountsPrivateServiceApi {
-//        override fun searchMember(request: MemberSearchRequest): MemberResponse.MemberDetailResponse? {
-//            val map: Map<String, String> = MemberSearchRequest::class.memberProperties.associate { it.name to it.call(request).toString() }
-//            val response = apiClient.getForObject("${accountsPrivateServiceProperties.memberUrl}/search-detail", map, MemberPageResponse::class.java, AccountsPrivateServiceServerException::class.java)
-//            println(response)
-//            return response?.contents?.firstOrNull()
 
-        }
+}
