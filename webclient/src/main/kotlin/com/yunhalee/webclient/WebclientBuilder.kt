@@ -17,13 +17,12 @@ import reactor.netty.transport.logging.AdvancedByteBufFormat
 import java.time.Duration
 import java.util.function.Consumer
 
-
-class WebClientBuilder {
+class WebclientBuilder {
     private val webClient = WebClient.builder()
     private val log = LoggerFactory.getLogger(this::class.java)
 
     private val headers = mutableMapOf(HttpHeaders.CONTENT_TYPE to MediaType.APPLICATION_JSON_VALUE)
-    fun addHeader(header: Pair<String, String>): WebClientBuilder = headers.put(header.first, header.second).let { this }
+    fun addHeader(header: Pair<String, String>): WebclientBuilder = headers.put(header.first, header.second).let { this }
 
     fun build(): WebClient {
         val provider = ConnectionProvider.builder("accounts")
@@ -35,19 +34,19 @@ class WebClientBuilder {
             .evictInBackground(Duration.ofSeconds(30))
             .build()
         return webClient.baseUrl("http://localhost:8080")
-            .clientConnector(ReactorClientHttpConnector(
-                HttpClient
-                    .create(provider)
-                    // logging 옵션 추가
+            .clientConnector(
+                ReactorClientHttpConnector(
+                    HttpClient
+                        .create(provider)
+                        // logging 옵션 추가
 //                    .wiretap(true)
-                    .wiretap("com.yunhalee.webclient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)
-                    .wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)
-        )
+                        .wiretap("com.yunhalee.webclient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)
+                        .wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)
+                )
             )
 //            .exchangeStrategies(ExchangeStrategies.builder().codecs { it.defaultCodecs().enableLoggingRequestDetails(true) }.build())
 //            .codecs { it.defaultCodecs().enableLoggingRequestDetails(true) }
             .defaultHeaders { headers.forEach { header -> it.add(header.key, header.value) } }
-
             .build()
     }
 
@@ -59,12 +58,12 @@ class WebClientBuilder {
         }
     }
 
-    fun exchangeStrategies(exchangeStrategies: ExchangeStrategies): WebClientBuilder {
+    fun exchangeStrategies(exchangeStrategies: ExchangeStrategies): WebclientBuilder {
         webClient.exchangeStrategies(exchangeStrategies)
         return this
     }
 
-    fun uriFactory(factory: UriBuilderFactory): WebClientBuilder {
+    fun uriFactory(factory: UriBuilderFactory): WebclientBuilder {
         webClient.uriBuilderFactory(factory)
         return this
     }

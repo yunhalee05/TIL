@@ -16,5 +16,12 @@ class TestController {
         return TestSearchData(name, age, grade)
     }
 
-
+    @GetMapping("/test-raw")
+    fun testRaw(@RequestParam("name") name: String, @RequestParam("age", required = false) age: Int?, @RequestParam(name = "grade", required = false) grade: Int?): TestData {
+        println("-----------------------requested-----------------------")
+        println("name: $name")
+        println("age: $age")
+        println("grade: $grade")
+        return TestData(name, age, grade)
+    }
 }

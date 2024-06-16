@@ -5,3 +5,9 @@ data class TestSearchData(
     val age: List<Int>,
     val grade: Int
 )
+
+data class TestData(
+    val name: String,
+    val age: Int? = null,
+    val grade: Int? = null
+)

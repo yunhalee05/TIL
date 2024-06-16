@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.ClientCodecConfigurer
 import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.web.reactive.function.client.ExchangeStrategies
-import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.DefaultUriBuilderFactory
 
 @Configuration
@@ -19,7 +18,7 @@ class WebclientConfig {
     @Bean
     fun webclientWithUriFactory(objectMapper: ObjectMapper): ApiClient {
         return ApiClient(
-            WebClientBuilder()
+            WebclientBuilder()
                 .exchangeStrategies(
                     ExchangeStrategies.builder()
                         .codecs { configurer: ClientCodecConfigurer -> configurer.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(objectMapper)) }
@@ -33,7 +32,7 @@ class WebclientConfig {
     @Bean
     fun webclientWithoutUriFactory(objectMapper: ObjectMapper): ApiClient {
         return ApiClient(
-            WebClientBuilder()
+            WebclientBuilder()
                 .exchangeStrategies(
                     ExchangeStrategies.builder()
                         .codecs { configurer: ClientCodecConfigurer -> configurer.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(objectMapper)) }
@@ -42,5 +41,4 @@ class WebclientConfig {
                 .build()
         )
     }
-
 }
