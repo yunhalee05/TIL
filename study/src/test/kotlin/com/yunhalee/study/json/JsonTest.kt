@@ -2,8 +2,8 @@ package com.yunhalee.study.json
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.yunhalee.study.domain.UserWithGrade
-import com.yunhalee.study.objectmapper.ObjectMapper
 import com.yunhalee.study.domain.UserWithState
+import com.yunhalee.study.objectmapper.ObjectMapper
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
@@ -37,7 +37,6 @@ class JsonTest {
 //            "state": "active"
 //        }
     }
-
 
     @Test
     fun `여러 인자를 가진 enum 클래스에서 DELEGATING 옵션으로 JsonCreator를 사용시에 역직렬화에 성공한다`() {

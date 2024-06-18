@@ -2,7 +2,7 @@ package com.yunhalee.study.domain
 
 import com.fasterxml.jackson.annotation.JsonCreator
 
-enum class Grade(val value: String, val description:String)  {
+enum class Grade(val value: String, val description: String) {
     UNKNOWN("unknown", "알수없음"),
     BRONZE("bronze", "브론즈"),
     SILVER("silver", "실버"),

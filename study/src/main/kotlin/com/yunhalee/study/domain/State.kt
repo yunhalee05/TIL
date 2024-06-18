@@ -2,7 +2,7 @@ package com.yunhalee.study.domain
 
 import com.fasterxml.jackson.annotation.JsonCreator
 
-enum class State(val value: String, val description:String)  {
+enum class State(val value: String, val description: String) {
     UNKNOWN("unknown", "알수없음"),
     ACTIVE("active", "활성"),
     INACTIVE("inactive", "비활성");
