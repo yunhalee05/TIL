@@ -23,6 +23,9 @@ dependencies {
 
     // hibernate-validator
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // springdoc-openapi
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 }
 //
 // noArg {

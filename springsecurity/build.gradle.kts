@@ -24,6 +24,8 @@ dependencies {
     // object mapper
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // springdoc-openapi
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
 }
 
