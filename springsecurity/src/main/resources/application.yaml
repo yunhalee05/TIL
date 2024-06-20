@@ -8,7 +8,7 @@ springdoc:
     groups:
       enabled: true
   swagger-ui:
-    path: /swagger-ui-custom.html
+    path: /swagger-ui/index.html
     enabled: true
     groups-order: ASC
     tags-sorter: alpha
@@ -18,3 +18,12 @@ springdoc:
   cache:
     disabled: true
   model-and-view-allowed: true
+#api-docs.enabled: true -> Swagger 사용 여부 설정, default = true
+#path : Swagger 접속 path 설정
+#tags-sorter : 태그 정렬 기준
+#operations-sorter : 태그 내 API의 정렬 기준
+#  정렬 기준은 기본 값은 컨트롤러 내 정의한 api 메서드 순
+#  alpha(알파벳 오름차순), method(http method)
+#doc-expansion : tag와 operation을 펼치는 방식 설정
+#  “list”, “full”, “none” 으로 설정 가능
+#  “none” 설정 시 모두 닫힌 상태로 문서 열람
