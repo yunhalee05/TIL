@@ -30,7 +30,6 @@ class SwaggerConfig {
             )
             .components(headerComponents())
             .security(listOf(SecurityRequirement().addList(authorizationHeader, serviceTypeHeader)))
-
     }
 
     private fun headerComponents(): Components {

@@ -49,7 +49,8 @@ class SecurityConfig(
     fun webSecurityCustomizer(): WebSecurityCustomizer {
         return WebSecurityCustomizer {
             web: WebSecurity ->
-            web.ignoring().requestMatchers("/swagger-ui/**",
+            web.ignoring().requestMatchers(
+                "/swagger-ui/**",
                 "/swagger-resources/**",
                 "/v3/api-docs/**",
                 "/v3/api-docs.yaml",
