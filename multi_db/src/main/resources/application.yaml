@@ -1,0 +1,29 @@
+spring:
+  application:
+    name:
+      multi_db
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  master-datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:33306/multi_db
+      username: root
+      password: root
+      maximum-pool-size: 5
+      minimum-idle: 5
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#      connection-init-sql: "SET SESSION innodb_lock_wait_timeout=5"
+  readonly-datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:33307/multi_db
+      username: root
+      password: root
+      maximum-pool-size: 5
+      minimum-idle: 5
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#      connection-init-sql: "SET SESSION innodb_lock_wait_timeout=5"
