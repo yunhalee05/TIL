@@ -1,0 +1,26 @@
+name: maven publish Github packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+      - name: Build and Publish
+        run: |
+          ./gradlew clean build publish
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERSONAL_USER_ID: ${{ secrets.PERSONAL_USER_ID }}
+          PERSONAL_USER_KEY: ${{ secrets.PERSONAL_USER_KEY }}

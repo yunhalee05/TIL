@@ -45,8 +45,8 @@ configure<PublishingExtension> {
         maven {
             url = uri("https://maven.pkg.github.com/yunhalee05/TIL")
             credentials {
-                username = project.findProperty("repo.user") as String
-                password = project.findProperty("repo.key") as String
+                username = project.findProperty("repo.user") as String? ?: System.getenv("PERSONAL_USER_ID")
+                password = project.findProperty("repo.key") as String? ?: System.getenv("PERSONAL_USER_KEY")
             }
         }
     }
