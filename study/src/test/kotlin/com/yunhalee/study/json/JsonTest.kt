@@ -25,9 +25,6 @@ class JsonTest {
         assertThatThrownBy { objectMapper.readValue(json, UserWithGrade::class.java) }
             .isInstanceOf(MismatchedInputException::class.java)
             .hasMessageContaining(" expects JSON Object (JsonToken.START_OBJECT), got JsonToken.VALUE_STRING")
-        val user = objectMapper.readValue(json, UserWithGrade::class.java)
-
-        println(user)
 
 //        {
 //            "name": "yunhalee",

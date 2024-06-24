@@ -26,6 +26,9 @@ dependencies {
 
     // springdoc-openapi
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
+    // common package
+    implementation("com.yunhalee:common:0.0.3-SNAPSHOT")
 }
 //
 // noArg {
@@ -41,5 +44,15 @@ ktlint {
 
     filter {
         exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
+    }
+}
+
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/yunhalee05/TIL")
+        credentials {
+            username = project.findProperty("repo.user") as String
+            password = project.findProperty("repo.key") as String
+        }
     }
 }

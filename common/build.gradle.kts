@@ -3,9 +3,8 @@ plugins {
     application
 }
 
-group = "com.yunhalee.common"
-version = "0.0.1-SNAPSHOT"
-
+group = "com.yunhalee"
+version = "0.0.3-SNAPSHOT"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -19,8 +18,6 @@ dependencies {
 
     // object mapper
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-    // webclient
 }
 
 ktlint {
@@ -35,21 +32,21 @@ apply {
     plugin("maven-publish")
 }
 
-
 configure<PublishingExtension> {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifact(tasks.kotlinSourcesJar.get())
-            artifact(tasks.jar.get())
+//            artifact(tasks.kotlinSourcesJar.get())
+//            artifact(tasks.jar.get())
+            from(components["kotlin"])
         }
     }
 
     repositories {
         maven {
-            url = uri("https://maven.pkg.github.com/yunhalee05/til")
+            url = uri("https://maven.pkg.github.com/yunhalee05/TIL")
             credentials {
-                username = project.findProperty("repo.user") as String? ?: System.getenv("")
-                password = project.findProperty("repo.key") as String? ?: System.getenv("")
+                username = project.findProperty("repo.user") as String
+                password = project.findProperty("repo.key") as String
             }
         }
     }
