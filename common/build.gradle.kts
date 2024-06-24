@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.yunhalee"
-version = "0.0.3-SNAPSHOT"
+version = "0.0.4-SNAPSHOT"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -45,8 +45,8 @@ configure<PublishingExtension> {
         maven {
             url = uri("https://maven.pkg.github.com/yunhalee05/TIL")
             credentials {
-                username = project.findProperty("repo.user") as String? ?: System.getenv("PERSONAL_USER_ID")
-                password = project.findProperty("repo.key") as String? ?: System.getenv("PERSONAL_USER_KEY")
+                username = project.findProperty("repo.user") as? String ?: System.getenv("PERSONAL_USER_ID")
+                password = project.findProperty("repo.key") as? String ?: System.getenv("PERSONAL_USER_KEY")
             }
         }
     }
