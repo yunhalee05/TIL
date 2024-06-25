@@ -29,6 +29,10 @@ dependencies {
 
     // common package
     implementation("com.yunhalee:common:0.0.3-SNAPSHOT")
+
+    // mockk
+    testImplementation("io.mockk:mockk:1.13.11")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 //
 // noArg {
