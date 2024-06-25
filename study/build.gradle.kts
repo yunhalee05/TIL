@@ -1,6 +1,12 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+
 plugins {
 //    kotlin("plugin.jpa")
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+
+    // kover
+    id("org.jetbrains.kotlinx.kover") version "0.8.1"
 }
 
 dependencies {
@@ -59,4 +65,42 @@ repositories {
             password = project.findProperty("repo.key") as String? ?: System.getenv("PERSONAL_USER_KEY")
         }
     }
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                classes("com.yunhalee.study.domain.State")
+            }
+        }
+
+        verify {
+            rule("Basic Line Converage") {
+                bound {
+                    minValue = 20
+                    maxValue = 100
+                    coverageUnits = CoverageUnit.LINE
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                }
+            }
+
+            rule("Branch Coverage") {
+                bound {
+                    minValue = 70
+                    maxValue = 100
+                    coverageUnits = CoverageUnit.BRANCH
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                }
+            }
+
+            rule {
+                bound {
+                    minValue = 80
+                }
+
+            }
+        }
+    }
+
 }
