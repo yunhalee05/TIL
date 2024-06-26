@@ -15,5 +15,6 @@ include("webclient")
 include("springsecurity")
 include("multi_db")
 include("common")
+include("pattern")
 
 

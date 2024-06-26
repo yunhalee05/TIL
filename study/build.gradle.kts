@@ -2,7 +2,7 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-//    kotlin("plugin.jpa")
+    kotlin("plugin.jpa")
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
 
     // kover
@@ -39,6 +39,12 @@ dependencies {
     // mockk
     testImplementation("io.mockk:mockk:1.13.11")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+
+    // h2 database
+    implementation("com.h2database:h2")
+
+    // jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.2")
 }
 //
 // noArg {
@@ -98,9 +104,7 @@ kover {
                 bound {
                     minValue = 80
                 }
-
             }
         }
     }
-
 }
