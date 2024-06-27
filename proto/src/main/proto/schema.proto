@@ -1,0 +1,45 @@
+// 프로토 최신 버전사용
+syntax = "proto3";
+
+// 사용할 패키지
+package com.yunhalee;
+
+// 파일이 자바 멀티플 파일 바탕으로 생성되도록
+option java_multiple_files = true;
+
+// 책과 작가의 클래스 정의
+message Book {
+  int32 book_id = 1;
+  string title = 2;
+  float price = 3;
+  int32 pages = 4;
+  int32 author_id = 5;
+}
+
+message Author {
+  int32 author_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string gender = 4;
+  int32 book_id = 5;
+}
+
+
+service BookAuthorService {
+
+  // unary - synchronous
+  // client will send one request and server will respond with one response
+  rpc getAuthor(Author) returns(Author){}
+
+  // server streaming - asynchronous
+  // client will send one request and server will respond with stream of messages to the client
+  rpc getBookByAuthor(Author) returns(stream Book){}
+
+  // client streaming - asynchronous
+  // client will send stream of messages and server will respond with one response
+  rpc getExpensiveBook(stream Book) returns(Book){}
+
+  // bidirectional steaming - asynchronous
+  // client will send stream of messages and server will respond with stream of messages to the client
+  rpc getBookByAuthorGender(stream Book) returns(stream Book){}
+}

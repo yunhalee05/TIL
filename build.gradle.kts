@@ -86,3 +86,9 @@ subprojects {
     }
 
 }
+
+project(":grpc_service") {
+    dependencies {
+        implementation(project(":proto"))
+    }
+}

@@ -16,5 +16,8 @@ include("springsecurity")
 include("multi_db")
 include("common")
 include("pattern")
+include("grpc_service")
+include("grpc_client")
+include("proto")
 
 
