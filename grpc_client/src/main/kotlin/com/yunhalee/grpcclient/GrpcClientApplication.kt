@@ -1,4 +1,4 @@
-package com.yunhalee.grpc_client
+package com.yunhalee.grpcclient
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

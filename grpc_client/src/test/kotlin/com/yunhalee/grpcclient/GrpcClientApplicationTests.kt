@@ -1,4 +1,4 @@
-package com.yunhalee.grpc_client
+package com.yunhalee.grpcclient
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,5 +9,4 @@ class GrpcClientApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

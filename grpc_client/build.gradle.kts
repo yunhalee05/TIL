@@ -1,17 +1,22 @@
+val grpcVersion = "1.64.0"
+val protobufVersion = "4.27.1"
+val grpcKotlinVersion = "1.4.1"
+
 plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("com.google.protobuf") version "0.9.4"
 }
 
 dependencies {
+    implementation(project(":proto"))
 //    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-
-    testImplementation("io.kotest:kotest-assertions-core:5.1.0")
-    testImplementation("io.kotest:kotest-runner-junit5:5.1.0")
-    testImplementation("io.kotest:kotest-property:5.1.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.0")
+    implementation("net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
 }
 
 ktlint {

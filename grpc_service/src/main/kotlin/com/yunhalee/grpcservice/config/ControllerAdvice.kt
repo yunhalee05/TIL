@@ -17,7 +17,7 @@ class ControllerAdvice {
         val metadata = Metadata()
         metadata.put(metadataKey, ErrorResponse.newBuilder().setMessage("예시 테스트 예외가 발생했습니다").setCode("50001").build())
         return Status.UNKNOWN
-            .withDescription("Internal server error")
+            .withDescription(e.message)
             .asRuntimeException(metadata)
     }
 }
