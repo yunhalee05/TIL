@@ -24,6 +24,11 @@ message Author {
   int32 book_id = 5;
 }
 
+message ErrorResponse {
+  string code = 1;
+  string message = 2;
+}
+
 
 service BookAuthorService {
 
