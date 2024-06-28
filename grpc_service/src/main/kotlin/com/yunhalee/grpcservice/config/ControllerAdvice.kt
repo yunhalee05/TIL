@@ -11,7 +11,6 @@ import net.devh.boot.grpc.server.advice.GrpcExceptionHandler
 @GrpcAdvice
 class ControllerAdvice {
 
-
     @GrpcExceptionHandler(Exception::class)
     fun handleException(e: Exception): StatusRuntimeException {
         val metadataKey: Metadata.Key<ErrorResponse> = ProtoUtils.keyForProto(ErrorResponse.getDefaultInstance())

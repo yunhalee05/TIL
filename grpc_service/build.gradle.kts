@@ -12,9 +12,9 @@ dependencies {
     implementation(project(":proto"))
     implementation("net.devh:grpc-spring-boot-starter:2.14.0.RELEASE")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
-    implementation("io.grpc:grpc-kotlin-stub:${grpcKotlinVersion}")
-    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
-    implementation("com.google.protobuf:protobuf-kotlin:${protobufVersion}")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
 }
 
 ktlint {
