@@ -10,7 +10,7 @@ val grpcKotlinVersion = "1.4.1"
 
 dependencies {
     implementation(project(":proto"))
-    implementation("net.devh:grpc-spring-boot-starter:2.14.0.RELEASE")
+    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
