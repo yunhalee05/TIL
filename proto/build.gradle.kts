@@ -1,13 +1,13 @@
 import com.google.protobuf.gradle.id
 
 
-val grpcVersion = "1.64.0"
-val protobufVersion = "4.27.1"
-val grpcKotlinVersion = "1.4.1"
+val grpcVersion = "1.58.0"
+val protobufVersion = "3.24.0"
+val grpcKotlinVersion = "1.4.0"
 
 plugins {
     // https://github.com/google/protobuf-gradle-plugin
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf") version "0.9.2"
     kotlin("jvm") version "1.9.21"
 }
 
