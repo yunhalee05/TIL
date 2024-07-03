@@ -22,26 +22,29 @@ class GrpcClientInterceptor : ClientInterceptor {
             private val delegate = next.newCall(method, callOptions)
 
             override fun start(responseListener: Listener<RespT>, headers: io.grpc.Metadata) {
-                delegate.start(object : Listener<RespT>() {
-                    override fun onHeaders(headers: io.grpc.Metadata) {
-                        responseListener.onHeaders(headers)
-                    }
-
-                    override fun onMessage(message: RespT) {
-                        responseListener.onMessage(message)
-                    }
-
-                    override fun onClose(status: Status, trailers: Metadata) {
-                        if (status.code != Status.Code.OK) {
-                            logger.info("Trailers received from server: $trailers")
+                delegate.start(
+                    object : Listener<RespT>() {
+                        override fun onHeaders(headers: io.grpc.Metadata) {
+                            responseListener.onHeaders(headers)
                         }
-                        responseListener.onClose(status, trailers)
-                    }
 
-                    override fun onReady() {
-                        responseListener.onReady()
-                    }
-                }, headers)
+                        override fun onMessage(message: RespT) {
+                            responseListener.onMessage(message)
+                        }
+
+                        override fun onClose(status: Status, trailers: Metadata) {
+                            if (status.code != Status.Code.OK) {
+                                logger.info("Trailers received from server: $trailers")
+                            }
+                            responseListener.onClose(status, trailers)
+                        }
+
+                        override fun onReady() {
+                            responseListener.onReady()
+                        }
+                    },
+                    headers
+                )
             }
 
             override fun request(numMessages: Int) {
@@ -59,7 +62,6 @@ class GrpcClientInterceptor : ClientInterceptor {
             override fun sendMessage(message: ReqT) {
                 delegate.sendMessage(message)
             }
-
         }
     }
 }

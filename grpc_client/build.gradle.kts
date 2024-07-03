@@ -17,6 +17,9 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+
+    // aop
+    implementation("org.springframework:spring-aspects:6.1.7")
 }
 
 ktlint {

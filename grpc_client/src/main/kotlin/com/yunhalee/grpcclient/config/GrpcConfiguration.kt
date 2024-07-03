@@ -10,7 +10,7 @@ class GrpcConfiguration {
 
     @Order(1)
     @GrpcGlobalClientInterceptor
-    fun grpcClientInterceptor() : ClientInterceptor {
+    fun grpcClientInterceptor(): ClientInterceptor {
         return GrpcClientInterceptor()
     }
 }
