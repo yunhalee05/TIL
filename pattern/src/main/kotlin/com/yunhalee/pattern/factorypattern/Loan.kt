@@ -10,6 +10,8 @@ class Loan(
     val outstanding: Double,
     val capitalStrategy: String?
 ) {
+
+
     private constructor(commitment: Double, riskRating: Int, maturity: Date) : this(
         commitment = commitment,
         outstanding = 0.00,
@@ -140,5 +142,27 @@ class Loan(
                 capitalStrategy = capitalStrategy
             )
         }
+
+        fun createLoan(capitalStrategy: String, commitment: Double, outstanding: Double, riskRating: Int, maturity: Date, expiry: Date): Loan {
+            if (capitalStrategy == "RCTL") {
+                return createRCTL(capitalStrategy, commitment, outstanding, riskRating, maturity, expiry)
+            } else if (capitalStrategy == "Revolver") {
+                return createRevolver(capitalStrategy, commitment, outstanding, riskRating, maturity, expiry)
+            } else {
+                return createTermLoan(capitalStrategy, commitment, outstanding, riskRating, maturity)
+            }
+        }
+    }
+
+
+    val strategyOption = CapitalStrategyOption()
+
+
+    fun getCapitalStrategy(): String {
+        return strategyOption.getCapitalStrategy()
+    }
+
+    fun setCapitalStrategy(strategy: String) {
+        strategyOption.changeCapitalStrategy(strategy)
     }
 }
