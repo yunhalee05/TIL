@@ -1,6 +1,8 @@
 package com.example.springsecurity.config.security
 
+import com.example.springsecurity.config.security.authentication.token.AuthenticationHeaderToken
 import com.example.springsecurity.config.security.authentication.MultiAuthentications
+import com.example.springsecurity.config.security.authentication.token.ServiceHeaderToken
 import com.example.springsecurity.config.security.authprovider.AuthenticationTokenAuthProvider
 import com.example.springsecurity.config.security.authprovider.ServiceTokenAuthProvider
 import com.example.springsecurity.exception.UnAuthenticatedException
@@ -37,8 +39,8 @@ class AuthenticationFilter(
         val authentication =
             MultiAuthentications(
                 listOfNotNull(
-                    serviceTokenAuthProvider.authentication(serviceTypeToken),
-                    authenticationTokenAuthProvider.authentication(accessToken),
+                    serviceTokenAuthProvider.authenticate(ServiceHeaderToken(token = serviceTypeToken)),
+                    authenticationTokenAuthProvider.authenticate(AuthenticationHeaderToken(token = accessToken)),
                 ).toMutableList(),
             )
         if (!authentication.isAuthenticated()) {

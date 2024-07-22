@@ -1,6 +1,11 @@
 plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("com.google.protobuf") version "0.9.2"
 }
+
+val grpcVersion = "1.58.0"
+val protobufVersion = "3.24.0"
+val grpcKotlinVersion = "1.4.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -26,6 +31,13 @@ dependencies {
 
     // springdoc-openapi
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
+    // grpc server
+    implementation(project(":proto"))
+    implementation("net.devh:grpc-server-spring-boot-starter:2.15.0.RELEASE")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
 }
 
 ktlint {

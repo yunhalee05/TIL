@@ -8,15 +8,15 @@ class TokenAuthentication(
 ) : Authentication {
 
     private var authenticated: Boolean = tokenUser != null
-    override fun getName(): String? = tokenUser?.name
+    override fun getName(): String? = tokenUser?.getName()
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = tokenUser?.authorities ?: mutableListOf()
 
     override fun getCredentials(): Any? = null
 
-    override fun getDetails(): Any? = tokenUser?.principal
+    override fun getDetails(): Any? = tokenUser?.getPrincipal()
 
-    override fun getPrincipal(): Any? = tokenUser?.principal
+    override fun getPrincipal(): Any? = tokenUser?.getPrincipal()
 
     override fun isAuthenticated(): Boolean = authenticated
 
