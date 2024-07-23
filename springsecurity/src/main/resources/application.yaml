@@ -27,3 +27,7 @@ springdoc:
 #doc-expansion : tag와 operation을 펼치는 방식 설정
 #  “list”, “full”, “none” 으로 설정 가능
 #  “none” 설정 시 모두 닫힌 상태로 문서 열람
+
+logging:
+  level:
+    root: info

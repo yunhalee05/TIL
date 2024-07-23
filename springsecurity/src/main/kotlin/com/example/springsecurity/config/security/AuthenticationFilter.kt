@@ -36,6 +36,8 @@ class AuthenticationFilter(
     private fun authenticate(request: HttpServletRequest) {
         val accessToken = resolveAuthorizationToken(request)
         val serviceTypeToken = resolveServiceTypeToken(request)
+//        serviceTokenAuthProvider.authenticate(ServiceHeaderToken(token = serviceTypeToken))
+//        val authentication = authenticationTokenAuthProvider.authenticate(AuthenticationHeaderToken(token = accessToken)) ?: MultiAuthentications(mutableListOf())
         val authentication =
             MultiAuthentications(
                 listOfNotNull(

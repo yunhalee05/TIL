@@ -2,6 +2,7 @@ package com.example.springsecurity.config
 
 import com.example.springsecurity.config.security.RestAccessDeniedHandler
 import com.example.springsecurity.config.security.RestAuthenticationEntryPoint
+import com.example.springsecurity.config.security.Role
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -32,6 +33,7 @@ class SecurityConfig(
             .authorizeHttpRequests { authorizeRequests ->
                 authorizeRequests
                     .requestMatchers(HttpMethod.GET, "/admin/**").hasAnyRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/v1/test").hasAnyRole(Role.MEMBER, Role.SERVICE)
                     .anyRequest().authenticated()
             }
 //            .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
