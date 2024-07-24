@@ -1,18 +1,13 @@
 package com.example.springsecurity.config.security.grpc
 
-import com.example.springsecurity.config.security.authentication.MultiAuthentications
-import com.example.springsecurity.config.security.authprovider.AuthenticationTokenAuthProvider
-import com.example.springsecurity.config.security.authprovider.ServiceTokenAuthProvider
 import com.example.springsecurity.exception.UnAuthenticatedException
 import io.grpc.Context
-import io.grpc.Contexts
 import io.grpc.Metadata
 import io.grpc.ServerCall
 import io.grpc.ServerCallHandler
-import net.devh.boot.grpc.server.security.interceptors.AuthenticatingServerInterceptor
-import org.springframework.security.core.context.SecurityContextHolder
 import net.devh.boot.grpc.server.security.authentication.GrpcAuthenticationReader
 import net.devh.boot.grpc.server.security.interceptors.AbstractAuthenticatingServerCallListener
+import net.devh.boot.grpc.server.security.interceptors.AuthenticatingServerInterceptor
 import org.slf4j.LoggerFactory
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.AbstractAuthenticationToken
@@ -21,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 
 
 /*
@@ -67,6 +63,7 @@ class GrpcAuthenticatingInterceptor(
                 AuthenticatingServerInterceptor.SECURITY_CONTEXT_KEY, securityContext,
                 AuthenticatingServerInterceptor.AUTHENTICATION_CONTEXT_KEY, authentication,
             )
+       grpcContext.attach()
 
         logger.debug("인증에 성공하였습니다. 인증 정보 : {}, 인증 권한 : {}", authentication!!.name, authentication.authorities)
 

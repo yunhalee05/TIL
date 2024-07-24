@@ -55,15 +55,15 @@ class GrpcSecurityConfig {
 //        return GrpcAuthenticationInterceptor(authenticationTokenAuthProvider, serviceTokenAuthProvider)
 //    }
 
-    // DefaultAuthenticatingServerInterceptor 의 우선순위보다 높게 줍니다.
-    @Order(InterceptorOrder.ORDER_SECURITY_AUTHENTICATION - 100)
-    @GrpcGlobalServerInterceptor
-    fun authenticatingInterceptor(
-        grpcAuthenticationReader: GrpcAuthenticationReader,
-        authenticationManager: AuthenticationManager,
-    ): AuthenticatingServerInterceptor {
-        return GrpcAuthenticatingInterceptor(grpcAuthenticationReader, authenticationManager)
-    }
+    // DefaultAuthenticatingServerInterceptor 의 우선순위보다 높게 줍니다. -> 안해도 됨
+//    @Order(InterceptorOrder.ORDER_SECURITY_AUTHENTICATION - 100)
+//    @GrpcGlobalServerInterceptor
+//    fun authenticatingInterceptor(
+//        grpcAuthenticationReader: GrpcAuthenticationReader,
+//        authenticationManager: AuthenticationManager,
+//    ): AuthenticatingServerInterceptor {
+//        return GrpcAuthenticatingInterceptor(grpcAuthenticationReader, authenticationManager)
+//    }
 
     @Bean
     fun authenticationManager(
