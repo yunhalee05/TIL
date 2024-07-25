@@ -6,4 +6,12 @@ grpc:
     grpc-service:
       address: static://localhost:9090
       negotiationType: plaintext
-
+grpc-client:
+  host: localhost
+  port: 9090
+logging:
+  level:
+    root: info
+    io.grpc: DEBUG           # gRPC 라이브러리 관련 로그
+    io.grpc.netty.shaded: DEBUG # Netty 기반 gRPC 로그
+    org.springframework.grpc: DEBUG # Spring Boot gRPC 로그 (선택 사항)

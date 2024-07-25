@@ -1,6 +1,7 @@
 package com.example.springsecurity.grpc
 
 import com.example.springsecurity.config.security.authentication.MultiAuthentications
+import com.example.springsecurity.infrastructure.grpc.GrpcAuthContext
 import com.yunhalee.Author
 import com.yunhalee.Book
 import com.yunhalee.BookAuthorServiceGrpcKt
@@ -18,6 +19,7 @@ class BookGrpcService: BookAuthorServiceGrpcKt.BookAuthorServiceCoroutineImplBas
             println(it.tokenUser)
             println(it.authorities)
         }
+        println(GrpcAuthContext.getMember())
         return Author.newBuilder()
             .setAuthorId(1)
             .setBookId(1)
