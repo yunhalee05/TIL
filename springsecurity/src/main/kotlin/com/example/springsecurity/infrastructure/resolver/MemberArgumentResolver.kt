@@ -1,7 +1,7 @@
-package com.example.springsecurity.infrastructure
+package com.example.springsecurity.infrastructure.resolver
 
 import com.example.springsecurity.config.security.authentication.TokenAuthentication
-import com.example.springsecurity.config.security.authentication.TokenService
+import com.example.springsecurity.config.security.authentication.TokenMember
 import org.springframework.core.MethodParameter
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -11,15 +11,15 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 @Component
-class ServiceArgumentResolver : HandlerMethodArgumentResolver {
+class MemberArgumentResolver : HandlerMethodArgumentResolver {
     override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return parameter.parameterType == TokenService::class.java
+        return parameter.parameterType == TokenMember::class.java
     }
 
     override fun resolveArgument(parameter: MethodParameter, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         val principals = SecurityContextHolder.getContext().authentication.principal as MutableList<TokenAuthentication>
         principals.forEach { principal ->
-            if (principal.tokenUser is TokenService) {
+            if (principal.tokenUser is TokenMember) {
                 return principal.tokenUser
             }
         }

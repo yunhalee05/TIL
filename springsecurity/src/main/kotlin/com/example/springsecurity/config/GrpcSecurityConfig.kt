@@ -1,35 +1,23 @@
-package com.example.springsecurity.config.security
+package com.example.springsecurity.config
 
-import com.example.springsecurity.config.security.authprovider.AuthenticationTokenAuthProvider
+import com.example.springsecurity.config.security.Role
 import com.example.springsecurity.config.security.authprovider.GrpcAuthProvider
-import com.example.springsecurity.config.security.authprovider.ServiceTokenAuthProvider
-import com.example.springsecurity.config.security.grpc.GrpcAuthenticatingInterceptor
 //import com.example.springsecurity.config.security.grpc.GrpcAuthenticationInterceptor
-import com.example.springsecurity.config.security.grpc.reader.GrpcAuthenticationTokenReader
-import com.example.springsecurity.config.security.grpc.reader.GrpcServiceTokenReader
 import com.example.springsecurity.config.security.grpc.reader.GrpcTokenReader
 import com.yunhalee.BookAuthorServiceGrpc
-import net.devh.boot.grpc.common.util.InterceptorOrder
-import net.devh.boot.grpc.server.interceptor.GrpcGlobalServerInterceptor
 import net.devh.boot.grpc.server.security.authentication.CompositeGrpcAuthenticationReader
 import net.devh.boot.grpc.server.security.authentication.GrpcAuthenticationReader
 import net.devh.boot.grpc.server.security.check.AccessPredicate
 import net.devh.boot.grpc.server.security.check.AccessPredicateVoter
 import net.devh.boot.grpc.server.security.check.GrpcSecurityMetadataSource
 import net.devh.boot.grpc.server.security.check.ManualGrpcSecurityMetadataSource
-import net.devh.boot.grpc.server.security.interceptors.AuthenticatingServerInterceptor
-import net.devh.boot.grpc.server.security.interceptors.AuthorizationCheckingServerInterceptor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.annotation.Order
 import org.springframework.security.access.AccessDecisionManager
 import org.springframework.security.access.AccessDecisionVoter
 import org.springframework.security.access.vote.UnanimousBased
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.ProviderManager
-import org.springframework.security.authorization.AuthorizationManager
-import org.springframework.security.authorization.AuthorizationManagers
 
 
 @Configuration
