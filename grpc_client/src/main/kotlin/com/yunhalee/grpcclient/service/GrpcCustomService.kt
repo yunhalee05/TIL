@@ -25,7 +25,12 @@ class GrpcCustomService(
             .setGender("Female")
             .setBookId(2)
             .build()
-        return bookAuthorService.getAuthor(request)
+        return try {
+            bookAuthorService.getAuthor(request)
+        }catch (ex: Exception){
+            println("try catch 문으로 예외를 잡았습니다.: $ex")
+            throw ex
+        }
 //        } catch (ex: StatusRuntimeException) {
 //            println("Status: ${ex.status}")
 //            println(ex.trailers)

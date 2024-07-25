@@ -20,6 +20,10 @@ dependencies {
 
     // aop
     implementation("org.springframework:spring-aspects:6.1.7")
+
+    // map-struct
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 }
 
 ktlint {
