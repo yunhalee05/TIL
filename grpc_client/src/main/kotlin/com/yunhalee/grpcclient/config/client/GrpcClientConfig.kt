@@ -36,6 +36,34 @@ class GrpcClientConfig {
             ),
         )
     }
+
+    @Bean
+    fun channel(
+        @Value("\${grpc.client.grpc-service.address}")
+        address: String,
+    ): Channel {
+        val channel =
+            NettyChannelBuilder
+                .forAddress("localhost", 9090)
+                .usePlaintext()
+                .build()
+        val uri = URI.create(address)
+        val useTransportSecurity = uri.scheme.equals("grpc+https", true)
+        val channelBuilder = NettyChannelBuilder.forAddress(uri.host, uri.port)
+            .defaultLoadBalancingPolicy("round_robin")
+        if (useTransportSecurity) {
+            channelBuilder.useTransportSecurity()
+        } else {
+            channelBuilder.usePlaintext()
+        }
+        return ClientInterceptors.intercept(
+            channel,
+            mutableListOf(
+                GrpcClientHeaderInterceptor(mapOf("Authorization" to "test")),
+            ),
+        )
+    }
+
 //
 //    @Bean
 //    fun managedChannel(
