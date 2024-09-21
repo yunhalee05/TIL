@@ -16,26 +16,26 @@ import java.net.URI
 
 @Configuration
 class GrpcClientConfig {
-    @Bean
-    fun channel(
-        @Value("\${grpc-client.host}")
-        host: String,
-        @Value("\${grpc-client.port}")
-        port: Int
-    ): Channel {
-        val channel =
-            NettyChannelBuilder
-                .forAddress("localhost", 9090)
-                .usePlaintext()
-                .build()
-
-        return ClientInterceptors.intercept(
-            channel,
-            mutableListOf(
-                GrpcClientHeaderInterceptor(mapOf("Authorization" to "test")),
-            ),
-        )
-    }
+//    @Bean
+//    fun channel(
+//        @Value("\${grpc-client.host}")
+//        host: String,
+//        @Value("\${grpc-client.port}")
+//        port: Int
+//    ): Channel {
+//        val channel =
+//            NettyChannelBuilder
+//                .forAddress("localhost", 9090)
+//                .usePlaintext()
+//                .build()
+//
+//        return ClientInterceptors.intercept(
+//            channel,
+//            mutableListOf(
+//                GrpcClientHeaderInterceptor(mapOf("Authorization" to "test")),
+//            ),
+//        )
+//    }
 
     @Bean
     fun channel(
