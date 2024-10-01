@@ -2,6 +2,8 @@ package com.yunhalee.concurrency_redisson.infrastructure.annotation
 
 import java.util.concurrent.TimeUnit
 
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
 annotation class ExecuteWithLock(
     val key: String,
     val timeUnit: TimeUnit,
