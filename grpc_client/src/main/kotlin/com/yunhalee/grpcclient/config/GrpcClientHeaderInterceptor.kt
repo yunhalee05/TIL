@@ -7,7 +7,6 @@ import io.grpc.ClientInterceptor
 import io.grpc.ForwardingClientCall
 import io.grpc.Metadata
 import io.grpc.MethodDescriptor
-import io.grpc.Status
 
 open class GrpcClientHeaderInterceptor(private val requestHeaders: Map<String, String>) : ClientInterceptor {
     override fun <ReqT : Any, RespT : Any> interceptCall(

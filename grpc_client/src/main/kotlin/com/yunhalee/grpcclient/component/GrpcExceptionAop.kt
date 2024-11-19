@@ -1,7 +1,6 @@
 package com.yunhalee.grpcclient.component
 
 import com.yunhalee.ErrorResponse
-import com.yunhalee.grpcclient.config.exception.mapper.GrpcErrorResponseMapper
 import com.yunhalee.grpcclient.config.exception.mapper.GrpcErrorResponseMapperToDto
 import com.yunhalee.grpcclient.exception.GrpcServerException
 import io.grpc.Status

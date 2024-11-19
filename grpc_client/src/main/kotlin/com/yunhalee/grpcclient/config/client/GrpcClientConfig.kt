@@ -1,18 +1,13 @@
 package com.yunhalee.grpcclient.config.client
 
-import com.yunhalee.BookAuthorServiceGrpc
 import com.yunhalee.grpcclient.config.GrpcClientHeaderInterceptor
 import io.grpc.Channel
 import io.grpc.ClientInterceptors
-import io.grpc.ManagedChannel
-import io.grpc.Metadata
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
-import io.grpc.stub.MetadataUtils
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.net.URI
-
 
 @Configuration
 class GrpcClientConfig {
@@ -97,6 +92,4 @@ class GrpcClientConfig {
 //        stub.withInterceptors(MetadataUtils.newAttachHeadersInterceptor(metadata))
 //        return stub
 //    }
-
-
 }

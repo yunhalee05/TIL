@@ -4,7 +4,6 @@ import com.yunhalee.Author
 import com.yunhalee.BookAuthorServiceGrpc
 import com.yunhalee.grpcclient.support.annotation.GrpcComponent
 import io.grpc.Channel
-import net.devh.boot.grpc.client.inject.GrpcClient
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,7 +26,7 @@ class GrpcCustomService(
             .build()
         return try {
             bookAuthorService.getAuthor(request)
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             println("try catch 문으로 예외를 잡았습니다.: $ex")
             throw ex
         }

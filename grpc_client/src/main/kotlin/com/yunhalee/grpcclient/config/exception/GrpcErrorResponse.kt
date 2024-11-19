@@ -9,5 +9,4 @@ data class GrpcErrorResponse(
             return GrpcErrorResponse(code, message)
         }
     }
-
 }

@@ -16,3 +16,27 @@ logging:
     io.grpc: DEBUG           # gRPC 라이브러리 관련 로그
     io.grpc.netty.shaded: DEBUG # Netty 기반 gRPC 로그
     org.springframework.grpc: DEBUG # Spring Boot gRPC 로그 (선택 사항)
+management:
+  health:
+    db:
+      enabled: true
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,httpTrace,prometheus,metrics,info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      service: grpc-client
+  server:
+    port: 8081
+server:
+  shutdown: graceful
