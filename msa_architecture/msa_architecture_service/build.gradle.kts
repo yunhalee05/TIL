@@ -8,8 +8,11 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
     kotlin("kapt") version kotlinVersion
+
+    // gradle degraph 플러그인 추가
+    id("com.vanniktech.dependency.graph.generator") version "0.7.0"
+
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -50,6 +53,7 @@ subprojects {
         plugin("org.springframework.boot")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
+        plugin("com.vanniktech.dependency.graph.generator")
     }
 
     java {
@@ -68,12 +72,6 @@ subprojects {
         it.exclude(module = "log4j-slf4j-impl")
     }
 
-    dependencies {
-        implementation("org.springframework.boot:spring-boot-starter")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-    }
-
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs += "-Xjsr305=strict"
@@ -84,5 +82,6 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
 
 }
