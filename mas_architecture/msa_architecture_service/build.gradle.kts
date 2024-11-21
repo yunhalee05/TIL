@@ -16,7 +16,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
 allprojects {
-    group = "com.yunhalee.msa_architecture_service"
+    group = "com.yunhalee.msa.architecture.service"
     version = "0.0.1-SNAPSHOT"
     repositories {
         mavenCentral()

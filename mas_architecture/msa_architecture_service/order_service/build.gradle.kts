@@ -28,3 +28,5 @@ ktlint {
         exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
     }
 }
+
+
