@@ -1,0 +1,47 @@
+spring:
+  jpa:
+    properties:
+      default_batch_fetch_size: 500
+      org.hibernate.flushMode: COMMIT
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MariaDBDialect
+        query:
+          in_clause_parameter_padding: true
+          plan_cache_max_size: 128
+          plan_parameter_metadata_max_size: 16
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  datasource:
+    hikari:
+      connection-timeout: 5000
+      max-lifetime: 58000
+      leak-detection-threshold: 30000
+  datasources:
+    default:
+      master-datasource:
+        hikari:
+          jdbc-url: jdbc:mysql://localhost:33306/default
+          username: root
+          password: root
+          driver-class-name: org.mariadb.jdbc.Driver
+      readonly-datasource:
+        hikari:
+          jdbc-url: jdbc:mysql://localhost:33306/default_read_only
+          username: root
+          password: root
+          driver-class-name: org.mariadb.jdbc.Driver
+    a:
+      master-datasource:
+        hikari:
+          jdbc-url: jdbc:mysql://localhost:33307/a
+          username: root
+          password: root
+          driver-class-name: org.mariadb.jdbc.Driver
+      readonly-datasource:
+        hikari:
+          jdbc-url: jdbc:mysql://localhost:33307/a_read_only
+          username: root
+          password: root
+          driver-class-name: org.mariadb.jdbc.Driver
