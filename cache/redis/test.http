@@ -1,0 +1,40 @@
+### Get User
+GET localhost:8080/api/test/v1/users/{id}
+
+### Create User
+POST http://localhost:8080/api/test/v1/users
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "test@gmail.com",
+    "createdAt": "2021-01-01T00:00:00Z",
+    "updatedAt": "2021-01-01T00:00:00Z"
+}
+
+### Update User
+POST localhost:8080/api/test/v1/users/{id}
+Content-Type: application/json
+
+{
+    "email": "test2@gmail.com"
+}
+
+### Delete User
+DELETE localhost:8080/api/test/v1/users/{id}
+
+### Create Team
+POST localhost:8080/api/test/v1/teams
+
+### Get Team
+GET localhost:8080/api/test/v1/teams/{id}
+
+### Refresh Team
+POST localhost:8080/api/test/v1/teams/{id}
+
+### Delete Team
+DELETE localhost:8080/api/test/v1/teams/{id}
+
+### Health check
+GET localhost:8081/actuator/health
