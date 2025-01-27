@@ -58,6 +58,13 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+
+
+        // mockk
+        testImplementation("org.springframework.boot:spring-boot-starter-test:3.4.2")
+        testImplementation("org.mockito:mockito-core:5.15.2")
+
     }
 
     java {

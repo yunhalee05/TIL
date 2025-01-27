@@ -13,6 +13,10 @@ class Product(
         setId(id)
     }
 
+    constructor(id: ProductID, name: String, price: Money) : this(name, price) {
+        setId(id)
+    }
+
     fun updateWithConfirmedNameAndPrice(name: String, price: Money) {
         this.name = name
         this.price = price

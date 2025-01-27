@@ -16,4 +16,26 @@ data class OrderAddress(
     @NotNull
     @Max(value = 50)
     val city: String,
-)
+) {
+    constructor(builder: Builder): this(
+        builder.street,
+        builder.postalCode,
+        builder.city
+    )
+
+    companion object {
+        fun builder() = Builder()
+    }
+
+    class Builder {
+        lateinit var street: String
+        lateinit var postalCode: String
+        lateinit var city: String
+
+        fun street(street: String) = apply { this.street = street }
+        fun postalCode(postalCode: String) = apply { this.postalCode = postalCode }
+        fun city(city: String) = apply { this.city = city }
+
+        fun build() = OrderAddress(this)
+    }
+}

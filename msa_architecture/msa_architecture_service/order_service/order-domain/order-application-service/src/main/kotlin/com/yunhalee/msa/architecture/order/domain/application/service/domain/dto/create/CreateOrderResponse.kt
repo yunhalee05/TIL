@@ -6,17 +6,17 @@ import java.util.UUID
 
 data class CreateOrderResponse(
     @NotNull
-    private val orderTrackingId: UUID? = null,
+     val orderTrackingId: UUID,
     @NotNull
-    private val orderStatus: OrderStatus? = null,
+     val orderStatus: OrderStatus,
     @NotNull
-    private val message: String? = null
+     val message: String
 ){
 
     constructor(builder: Builder) : this(
-        builder.orderTrackingId,
-        builder.orderStatus,
-        builder.message
+        builder.orderTrackingId!!,
+        builder.orderStatus!!,
+        builder.message!!
     )
 
     companion object {

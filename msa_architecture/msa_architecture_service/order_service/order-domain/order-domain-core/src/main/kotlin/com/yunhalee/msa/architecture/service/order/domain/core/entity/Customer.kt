@@ -17,5 +17,7 @@ class Customer(
     val firstName : String,
     val lastName : String,
 ) : AggregateRoot<CustomerID>() {
-
+    constructor(customerID: CustomerID): this("", "", ""){
+        setId(customerID)
+    }
 }
