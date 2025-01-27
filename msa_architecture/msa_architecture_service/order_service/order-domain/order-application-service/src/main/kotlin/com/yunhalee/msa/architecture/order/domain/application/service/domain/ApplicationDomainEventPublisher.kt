@@ -9,14 +9,14 @@ import java.util.logging.Logger
 
 
 // Option 2: ApplicationDomainEventPublisher
-//
-//@Component
-//class ApplicationDomainEventPublisher(private val applicationEventPublisher: ApplicationEventPublisher) : DomainEventPublisher<OrderCreateEvent> {
-//
-//    private val logger = Logger.getLogger(ApplicationDomainEventPublisher::class.java.name)
-//
-//    override fun publish(event: OrderCreateEvent) {
-//        this.applicationEventPublisher.publishEvent(event)
-//        logger.info("OrderCreateEvent is published for id : ${event.order.id}")
-//    }
-//}
+
+@Component
+class ApplicationDomainEventPublisher(private val applicationEventPublisher: ApplicationEventPublisher) : DomainEventPublisher<OrderCreateEvent> {
+
+    private val logger = Logger.getLogger(ApplicationDomainEventPublisher::class.java.name)
+
+    override fun publish(event: OrderCreateEvent) {
+        this.applicationEventPublisher.publishEvent(event)
+        logger.info("OrderCreateEvent is published for id : ${event.order.id}")
+    }
+}
