@@ -56,6 +56,10 @@ subprojects {
         plugin("com.vanniktech.dependency.graph.generator")
     }
 
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+    }
+
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

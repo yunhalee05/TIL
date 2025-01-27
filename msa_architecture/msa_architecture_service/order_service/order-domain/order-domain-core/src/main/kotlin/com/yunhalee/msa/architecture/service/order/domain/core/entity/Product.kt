@@ -5,7 +5,17 @@ import com.yunhalee.msa.architecture.common.domain.valueobject.Money
 import com.yunhalee.msa.architecture.common.domain.valueobject.ProductID
 
 class Product(
-    val name: String,
-    val price: Money
-): BaseEntity<ProductID>() {
+    var name: String,
+    var price: Money
+) : BaseEntity<ProductID>() {
+
+    constructor(id: ProductID) : this("", Money.ZERO) {
+        setId(id)
+    }
+
+    fun updateWithConfirmedNameAndPrice(name: String, price: Money) {
+        this.name = name
+        this.price = price
+    }
+
 }

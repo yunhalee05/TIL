@@ -5,6 +5,10 @@ import java.math.RoundingMode
 
 data class Money(val amount: BigDecimal) {
 
+    companion object {
+        val ZERO = Money(BigDecimal.ZERO)
+    }
+
     fun isGreaterThanZero(): Boolean {
         // amount.compareTo(BigDecimal.ZERO) > 0
         return amount > BigDecimal.ZERO

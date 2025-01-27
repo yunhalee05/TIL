@@ -1,6 +1,7 @@
 package com.yunhalee.msa.architecture.common.domain.entity
 
 import java.util.Objects
+import java.util.UUID
 
 abstract class BaseEntity<ID> {
     var id: ID? = null
@@ -12,7 +13,7 @@ abstract class BaseEntity<ID> {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
+        if (other == null || this::class != other::class) return false
         val that = other as BaseEntity<*>
         return id == that.id
     }
