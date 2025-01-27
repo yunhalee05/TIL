@@ -4,6 +4,9 @@ plugins {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    implementation("org.springframework.kafka:spring-kafka")
+    implementation("io.confluent:kafka-avro-serializer:7.8.0")
 }
 
 ktlint {
@@ -13,6 +16,7 @@ ktlint {
         exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
     }
 }
+
 
 tasks.bootJar {
     enabled = false

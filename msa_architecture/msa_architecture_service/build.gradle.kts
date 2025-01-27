@@ -23,6 +23,7 @@ allprojects {
     version = "0.0.1-SNAPSHOT"
     repositories {
         mavenCentral()
+        maven("https://packages.confluent.io/maven/")
     }
 
     tasks.withType<KotlinCompile> {
@@ -59,6 +60,7 @@ subprojects {
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+        implementation("org.springframework.boot:spring-boot-starter:3.4.2")
 
 
         // mockk
@@ -94,5 +96,8 @@ subprojects {
         useJUnitPlatform()
     }
 
-
+    repositories {
+        mavenCentral()
+        maven("https://packages.confluent.io/maven/")
+    }
 }
