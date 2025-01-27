@@ -5,5 +5,5 @@ import java.util.UUID
 
 data class TrackOrderQuery(
     @NotNull
-    private val orderTrackingId: UUID? = null
+    val orderTrackingId: UUID
 )

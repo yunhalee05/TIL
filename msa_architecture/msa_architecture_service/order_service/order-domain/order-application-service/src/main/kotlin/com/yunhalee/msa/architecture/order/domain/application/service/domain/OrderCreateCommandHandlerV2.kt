@@ -15,16 +15,19 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 import java.util.logging.Logger
 
+// Option 2 : ApplicationDomainEventPublisher
+
 @Component
-class OrderCreateCommandHandler(
+class OrderCreateCommandHandlerV2(
     private val orderDomainService: OrderDomainService,
     private val orderRepository: OrderRepository,
     private val customerRepository: CustomerRepository,
     private val restaurantRepository: RestaurantRepository,
-    private val orderDataMapper: OrderDataMapper
+    private val orderDataMapper: OrderDataMapper,
+    private val applicationDomainEventPublisher: ApplicationDomainEventPublisher
 ) {
 
-    private val logger = Logger.getLogger(OrderCreateCommandHandler::class.java.name)
+    private val logger = Logger.getLogger(OrderCreateCommandHandlerV2::class.java.name)
 
 
     @Transactional
@@ -35,6 +38,7 @@ class OrderCreateCommandHandler(
         val orderCreateEvent = orderDomainService.validateAndInitializeOrder(order, restaurant)
         val orderResult = saveOrder(order)
         logger.info("Order is created with id : ${orderResult.id}")
+        applicationDomainEventPublisher.publish(orderCreateEvent)
         return orderDataMapper.orderToCreateOrderResponse(orderResult)
     }
 

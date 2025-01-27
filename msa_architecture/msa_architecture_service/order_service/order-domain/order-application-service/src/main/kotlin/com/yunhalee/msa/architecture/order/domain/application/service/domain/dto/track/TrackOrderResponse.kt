@@ -7,9 +7,31 @@ import java.util.UUID
 
 data class TrackOrderResponse(
     @NotNull
-    private val orderTrackingId: UUID? = null,
+    val orderTrackingId: UUID? = null,
     @NotNull
-    private val orderStatus: OrderStatus? = null,
-    private val failureMessages: List<String>? = null
-)
+    val orderStatus: OrderStatus? = null,
+    val failureMessages: List<String>? = null
+){
+    constructor(builder: Builder) : this(
+        builder.orderTrackingId,
+        builder.orderStatus,
+        builder.failureMessages
+    )
+
+    companion object{
+        fun builder() = Builder()
+    }
+
+    class Builder{
+        var orderTrackingId: UUID? = null
+        var orderStatus: OrderStatus? = null
+        var failureMessages: List<String>? = null
+
+        fun orderTrackingId(orderTrackingId: UUID) = apply { this.orderTrackingId = orderTrackingId }
+        fun orderStatus(orderStatus: OrderStatus) = apply { this.orderStatus = orderStatus }
+        fun failureMessages(failureMessages: List<String>) = apply { this.failureMessages = failureMessages }
+
+        fun build() = TrackOrderResponse(this)
+    }
+}
 

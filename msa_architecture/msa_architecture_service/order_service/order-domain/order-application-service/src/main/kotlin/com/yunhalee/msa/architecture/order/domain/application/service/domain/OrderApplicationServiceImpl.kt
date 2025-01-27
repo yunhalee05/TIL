@@ -12,8 +12,8 @@ import java.util.logging.Logger
 @Service
 @Validated
 class OrderApplicationServiceImpl(
-    private val orderCreateCommandHandler: OrderCreateCommandHandler,
-    private val orderTrackCommandHandler: OrderTrackCommandHandler
+    private val orderCreateCommandHandler: OrderCreateCommandHandlerV1,
+    private val orderTrackCommandHandler: OrderTrackCommandHandler,
 ): OrderApplicationService {
 
     private val logger = Logger.getLogger(OrderApplicationServiceImpl::class.java.name)

@@ -9,6 +9,7 @@ import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto
 import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.create.CreateOrderResponse
 import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.create.OrderAddress
 import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.create.OrderItem
+import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.track.TrackOrderResponse
 import com.yunhalee.msa.architecture.service.order.domain.core.entity.Order
 import com.yunhalee.msa.architecture.service.order.domain.core.entity.Product
 import com.yunhalee.msa.architecture.service.order.domain.core.entity.Restaurant
@@ -41,6 +42,13 @@ class OrderDataMapper {
 
     fun orderToCreateOrderResponse(order: Order): CreateOrderResponse {
         return CreateOrderResponse.builder()
+            .orderTrackingId(order.trackingId.getValue())
+            .orderStatus(order.orderStatus)
+            .build()
+    }
+
+    fun orderToTrackOrderResponse(order: Order): TrackOrderResponse {
+        return TrackOrderResponse.builder()
             .orderTrackingId(order.trackingId.getValue())
             .orderStatus(order.orderStatus)
             .build()
