@@ -38,6 +38,9 @@ class Order(
     }
 
     companion object {
+
+        const val FAILURE_MESSAGE_DELIMITER = ", "
+
         fun builder(): Builder {
             return Builder()
         }

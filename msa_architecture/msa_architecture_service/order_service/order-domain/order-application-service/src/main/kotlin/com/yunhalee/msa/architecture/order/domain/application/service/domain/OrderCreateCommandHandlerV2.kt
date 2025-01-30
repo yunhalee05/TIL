@@ -39,7 +39,7 @@ class OrderCreateCommandHandlerV2(
         val orderResult = saveOrder(order)
         logger.info("Order is created with id : ${orderResult.id}")
         applicationDomainEventPublisher.publish(orderCreateEvent)
-        return orderDataMapper.orderToCreateOrderResponse(orderResult)
+        return orderDataMapper.orderToCreateOrderResponse(orderResult, "Order is created successfully")
     }
 
     private fun checkCustomer(customerId: UUID) {

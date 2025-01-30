@@ -9,6 +9,7 @@ plugins {
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("kapt") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
 
     // gradle degraph 플러그인 추가
     id("com.vanniktech.dependency.graph.generator") version "0.7.0"

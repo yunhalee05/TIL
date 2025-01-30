@@ -13,11 +13,24 @@ import com.yunhalee.msa.architecture.service.order.domain.core.valueobject.Track
 import java.util.UUID
 
 class Customer(
-    val username : String,
-    val firstName : String,
-    val lastName : String,
 ) : AggregateRoot<CustomerID>() {
-    constructor(customerID: CustomerID): this("", "", ""){
+    constructor(customerID: CustomerID): this(){
         setId(customerID)
+    }
+
+    constructor(builder: Builder): this(){
+        setId(builder.id!!)
+    }
+
+    companion object {
+        fun builder(): Builder {
+            return Builder()
+        }
+    }
+
+    class Builder {
+        var id: CustomerID? = null
+        fun id(id: CustomerID) = apply { this.id = id }
+        fun build() = Customer(this)
     }
 }
