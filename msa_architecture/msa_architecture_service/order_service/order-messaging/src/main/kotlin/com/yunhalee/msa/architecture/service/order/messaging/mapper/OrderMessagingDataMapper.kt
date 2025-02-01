@@ -2,11 +2,17 @@ package com.yunhalee.msa.architecture.service.order.messaging.mapper
 
 import com.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel
+import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel
 import com.food.ordering.system.kafka.order.avro.model.Product
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel
+import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalResponseAvroModel
 import com.food.ordering.system.kafka.order.avro.model.RestaurantOrderStatus
+import com.yunhalee.msa.architecture.common.domain.valueobject.OrderApprovalStatus
+import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.message.PaymentResponse
+import com.yunhalee.msa.architecture.order.domain.application.service.domain.dto.message.RestaurantApprovalResponse
 import com.yunhalee.msa.architecture.service.order.domain.core.event.OrderCanceledEvent
 import com.yunhalee.msa.architecture.service.order.domain.core.event.OrderCreateEvent
+import com.yunhalee.msa.architecture.service.order.domain.core.event.OrderPaidEvent
 import org.springframework.stereotype.Component
 import java.util.UUID
 import java.util.stream.Collectors
@@ -42,24 +48,52 @@ class OrderMessagingDataMapper {
 
 
     fun orderPaidEventToRestaurantApprovalRequestAvroModel(orderPaidEvent: OrderPaidEvent): RestaurantApprovalRequestAvroModel {
-        val order= orderPaidEvent.getOrder()
+        val order = orderPaidEvent.order
         return RestaurantApprovalRequestAvroModel.newBuilder()
             .setId(UUID.randomUUID())
             .setSagaId("")
-            .setOrderId(order.getId().getValue().toString())
-            .setRestaurantId(order.getRestaurantId().getValue().toString())
-            .setOrderId(order.getId().getValue().toString())
+            .setOrderId(order.id!!.getValue())
+            .setRestaurantId(order.restaurantId.getValue())
+            .setOrderId(order.id!!.getValue())
             .setRestaurantOrderStatus(RestaurantOrderStatus
-                .valueOf(order.getOrderStatus().name()))
-            .setProducts(order.getItems().stream().map { orderItem ->
+                .valueOf(order.orderStatus.name))
+            .setProducts(order.orderItems.stream().map { orderItem ->
                 Product.newBuilder()
-                    .setId(orderItem.getProduct().getId().getValue().toString())
-                    .setQuantity(orderItem.getQuantity())
+                    .setId(orderItem.product.id!!.getValue().toString())
+                    .setQuantity(orderItem.quantity)
                     .build()
             }.collect(Collectors.toList()))
-            .setPrice(order.getPrice().getAmount())
-            .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
+            .setPrice(order.price.amount)
+            .setCreatedAt(orderPaidEvent.createdAt.toInstant())
             .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+            .build()
+    }
+
+
+    fun paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel: PaymentResponseAvroModel): PaymentResponse {
+        return PaymentResponse.builder()
+            .id(paymentResponseAvroModel.id.toString())
+            .sagaId(paymentResponseAvroModel.sagaId.toString())
+            .paymentId(paymentResponseAvroModel.paymentId.toString())
+            .customerId(paymentResponseAvroModel.customerId.toString())
+            .orderId(paymentResponseAvroModel.orderId.toString())
+            .price(paymentResponseAvroModel.price)
+            .createdAt(paymentResponseAvroModel.createdAt)
+            .paymentStatus(com.yunhalee.msa.architecture.common.domain.valueobject.PaymentStatus.valueOf(paymentResponseAvroModel.paymentStatus.name))
+            .failureMessages(paymentResponseAvroModel.failureMessages)
+            .build()
+    }
+
+
+    fun approvalResponseAvroModelToApprovalResponse(restaurantApprovalResponseAvroModel: RestaurantApprovalResponseAvroModel): RestaurantApprovalResponse {
+        return RestaurantApprovalResponse.builder()
+            .id(restaurantApprovalResponseAvroModel.id.toString())
+            .sagaId(restaurantApprovalResponseAvroModel.sagaId.toString())
+            .restaurantId(restaurantApprovalResponseAvroModel.restaurantId.toString())
+            .orderId(restaurantApprovalResponseAvroModel.orderId.toString())
+            .createdAt(restaurantApprovalResponseAvroModel.createdAt)
+            .orderApprovalStatus(OrderApprovalStatus.valueOf(restaurantApprovalResponseAvroModel.orderApprovalStatus.name))
+            .failureMessages(restaurantApprovalResponseAvroModel.failureMessages)
             .build()
     }
 

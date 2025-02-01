@@ -12,7 +12,7 @@ import java.util.logging.Logger
 
 @Component
 class CreateOrderKafkaMessagePublisher(
-    private val orderMessageDataMapper: OrderMessagingDataMapper
+    private val orderMessageDataMapper: OrderMessagingDataMapper,
     private val orderServiceConfigData: OrderServiceConfigData,
     private val kafkaProducer: KafkaProducer<String, PaymentRequestAvroModel>,
     private val orderKafkaMessageHelper: KafkaMessageHelper
