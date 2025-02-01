@@ -1,0 +1,23 @@
+server:
+  port: 8184
+
+logging:
+  level:
+    com.yunhalee.msa.architecture: DEBUG
+spring:
+  application:
+    name: customer_service
+  jpa:
+    open-in-view: false # persistence context is not open in view
+
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true

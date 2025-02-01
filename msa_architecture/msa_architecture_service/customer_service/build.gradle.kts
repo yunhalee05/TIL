@@ -1,9 +1,12 @@
 plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    kotlin("plugin.jpa")
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("com.h2database:h2")
 }
 
 ktlint {
