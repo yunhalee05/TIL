@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    properties:
+      default_batch_fetch_size: 500
+      org.hibernate.flushMode: COMMIT
+      hibernate:
+        format_sql: false
+        query:
+          in_clause_parameter_padding: true
+          plan_cache_max_size: 128
+          plan_parameter_metadata_max_size: 16
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33306/default
+    username: root
+    password: root
+    hikari:
+      connection-timeout: 5000
+      max-lifetime: 58000
+      leak-detection-threshold: 30000
+      maximum-pool-size: 40
