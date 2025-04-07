@@ -61,5 +61,18 @@ class UserRepositoryTest {
         println("Time taken to save 1000 users: ${end - start} ms")
     }
 
+    @Test
+    fun bulk_insert() {
+        val users = mutableListOf<UserEntity>()
+        for (i in 1..1000) {
+            users.add(UserEntity(email = "testUser$i@gmail.com", name = "testUser$i", phone = "010-1234-567$i", status = UserStatus.ACTIVE))
+        }
+        val start = System.currentTimeMillis()
+        userRepository.saveAllWithBulkInsert(users)
+        val end = System.currentTimeMillis()
+        // Time taken to save 1000 users: 2419 ms
+        println("Time taken to save 1000 users: ${end - start} ms")
+    }
+
 
 }

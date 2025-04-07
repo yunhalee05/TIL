@@ -10,7 +10,7 @@ spring:
           plan_cache_max_size: 128
           plan_parameter_metadata_max_size: 16
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
