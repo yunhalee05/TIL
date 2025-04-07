@@ -14,7 +14,7 @@ spring:
     show-sql: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33306/bulk_insert?profileSQL=true
+    url: jdbc:mysql://localhost:33306/bulk_insert?profileSQL=true&rewriteBatchedStatements=true
     username: root
     password: root
     hikari:
