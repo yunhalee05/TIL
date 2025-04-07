@@ -10,11 +10,11 @@ spring:
           plan_cache_max_size: 128
           plan_parameter_metadata_max_size: 16
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     show-sql: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33306/default
+    url: jdbc:mysql://localhost:33306/bulk_insert?profileSQL=true
     username: root
     password: root
     hikari:
@@ -22,3 +22,9 @@ spring:
       max-lifetime: 58000
       leak-detection-threshold: 30000
       maximum-pool-size: 40
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        jdbc: debug

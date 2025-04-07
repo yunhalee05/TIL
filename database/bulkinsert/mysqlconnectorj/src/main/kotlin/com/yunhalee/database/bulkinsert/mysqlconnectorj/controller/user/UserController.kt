@@ -9,14 +9,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/api/users")
 class UserController(
     private val userRepository: UserRepository,
 ) {
 
-    @PostMapping("/users")
+    @PostMapping("/save-all")
     fun createAll(@RequestBody requests: CreateUsersRequest): ResponseEntity<List<UserResponse>> {
         val responses = userRepository.saveAll(requests.requests.map { request ->
             UserEntity(
@@ -33,6 +35,19 @@ class UserController(
                 phone = user.phone,
             )
         })
+    }
+
+
+    @PostMapping("/save-bulk-insert")
+    fun createAllByBulkInsert(@RequestBody requests: CreateUsersRequest): ResponseEntity<List<UserResponse>> {
+        val responses = userRepository.saveAllWithBulkInsert(requests.requests.map { request ->
+            UserEntity(
+                email = request.email,
+                name = request.name,
+                phone = request.phone,
+            )
+        })
+        return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/users/many")
