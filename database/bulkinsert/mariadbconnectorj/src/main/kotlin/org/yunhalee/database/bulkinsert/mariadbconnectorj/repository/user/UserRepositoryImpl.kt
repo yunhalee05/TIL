@@ -28,4 +28,25 @@ class UserRepositoryImpl(
             ps.setTimestamp(6, Timestamp.valueOf(user.updatedAt))
         }
     }
+
+    @Transactional
+    override fun saveAllAsMultiRow(users: List<UserEntity>) {
+        if (users.isEmpty()) return
+
+        val sqlPrefix = "INSERT INTO user (email, name, phone, status, created_at, updated_at) VALUES "
+        val rowPlaceholders = List(users.size) { "(?, ?, ?, ?, ?, ?)" }.joinToString(", ")
+        val finalSql = sqlPrefix + rowPlaceholders
+
+        val params = mutableListOf<Any>()
+        for (user in users) {
+            params += user.email
+            params += user.name
+            params += user.phone
+            params += user.status.name
+            params += Timestamp.valueOf(user.createdAt)
+            params += Timestamp.valueOf(user.updatedAt)
+        }
+
+        jdbcTemplate.update(finalSql, *params.toTypedArray())
+    }
 }

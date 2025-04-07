@@ -5,4 +5,6 @@ import org.yunhalee.database.bulkinsert.mariadbconnectorj.entity.user.UserEntity
 interface UserCustomRepository {
 
     fun saveAllWithBulkInsert(users: List<UserEntity>)
+
+    fun saveAllAsMultiRow(users: List<UserEntity>)
 }
