@@ -1,13 +1,13 @@
-package com.yunhalee.database.bulkinsert.mysqlconnectorj
+package org.yunhalee.database.bulkinsert.mariadbconnectorj
 
-import com.yunhalee.database.bulkinsert.mysqlconnectorj.entity.user.UserEntity
-import com.yunhalee.database.bulkinsert.mysqlconnectorj.entity.user.UserStatus
-import com.yunhalee.database.bulkinsert.mysqlconnectorj.repository.user.UserRepository
+
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import org.springframework.transaction.annotation.Transactional
+import org.yunhalee.database.bulkinsert.mariadbconnectorj.entity.user.UserEntity
+import org.yunhalee.database.bulkinsert.mariadbconnectorj.entity.user.UserStatus
+import org.yunhalee.database.bulkinsert.mariadbconnectorj.repository.user.UserRepository
 
 @SpringBootTest
 class UserRepositoryTest {
