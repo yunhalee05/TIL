@@ -6,6 +6,8 @@ import com.yunhalee.database.bulkinsert.mysqlconnectorj.repository.user.UserRepo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import org.springframework.transaction.annotation.Transactional
 
@@ -87,6 +89,76 @@ class UserRepositoryTest {
         // Time taken to save 1000 users: 201 ms
         println("Time taken to save 1000 users: ${end - start} ms")
     }
+
+
+    @Test
+    fun delete() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        for (user in users) {
+            // SimpleJpaRepository -> SessionImpl -> DefaultMergeEventListener
+            userRepository.delete(user)
+        }
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 12606 ms
+        println("Time taken to save 1000 users: ${end - start} ms")
+    }
+
+    @Test
+    fun deleteAll() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        // SimpleJpaRepository -> SessionImpl -> DefaultMergeEventListener
+        userRepository.deleteAll(users)
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 5099 ms
+        println("Time taken to delete 1000 users: ${end - start} ms")
+    }
+
+
+    @Test
+    fun deleteAllInBatch() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        // SimpleJpaRepository -> SessionImpl -> DefaultMergeEventListener
+        userRepository.deleteAllInBatch(users)
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 384 ms
+        println("Time taken to delete 1000 users: ${end - start} ms")
+    }
+
+    @Test
+    fun deleteAllByJdbcTemplate() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        // SimpleJpaRepository -> SessionImpl -> DefaultMergeEventListener
+        userRepository.deleteAllWithJdbcTemplate(users)
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 2258 ms
+        println("Time taken to delete 1000 users: ${end - start} ms")
+    }
+
+    @Test
+    fun deleteAllByJdbcTemplateWithRewriteBatchedStatementsOption() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        userRepository.deleteAllWithJdbcTemplate(users)
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 230 ms
+        println("Time taken to delete 1000 users: ${end - start} ms")
+    }
+
+
+    @Test
+    fun deleteAllWithInClause() {
+        val users = userRepository.findAllByOrderByIdAsc(Pageable.ofSize(1000))
+        val start = System.currentTimeMillis()
+        userRepository.deleteAllWithInClause(users)
+        val end = System.currentTimeMillis()
+        // Time taken to delete 1000 users: 43 ms
+        println("Time taken to delete 1000 users: ${end - start} ms")
+    }
+
 
 
 }
