@@ -1,0 +1,31 @@
+{{- if .Values.components.grafanaInfluxdb }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: grafana-influxdb
+  labels:
+    app: grafana-influxdb
+spec:
+  containers:
+    - name: influxdb
+      image: influxdb:1.8
+      env:
+        - name: INFLUXDB_DB
+          value: k6
+        - name: INFLUXDB_ADMIN_USER
+          value: k6
+        - name: INFLUXDB_ADMIN_PASSWORD
+          value: k6pass
+      ports:
+        - containerPort: 8086
+
+    - name: grafana
+      image: grafana/grafana
+      env:
+        - name: GF_SECURITY_ADMIN_USER
+          value: admin
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: admin
+      ports:
+        - containerPort: 3000
+{{- end }}

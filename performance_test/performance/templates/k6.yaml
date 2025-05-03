@@ -1,0 +1,37 @@
+{{- if .Values.components.k6 }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: golang:1.23
+          env:
+            - name: K6_OUT
+              value: influxdb=http://grafana-influxdb:8086/k6
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              go install go.k6.io/xk6/cmd/xk6@v0.10.0
+              /go/bin/xk6 build v0.49.0 --with github.com/grafana/xk6-grpc --output ./k6
+              ./k6 run /scripts/{{ .Values.k6.scriptFile }}
+          volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+              readOnly: true
+            - name: proto-volume
+              mountPath: /protos
+              readOnly: true
+      volumes:
+        - name: script-volume
+          configMap:
+            name: k6-script
+        - name: proto-volume
+          configMap:
+            name: k6-proto
+{{- end }}

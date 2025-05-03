@@ -1,0 +1,21 @@
+# Default values for k6.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+influxdb:
+  image: influxdb:1.8
+  database: k6
+  username: k6
+  password: k6pass
+
+grafana:
+  image: grafana/grafana
+  adminUser: admin
+  adminPassword: admin
+
+k6:
+  scriptFile: smoke.js
+
+components:
+  grafanaInfluxdb: false
+  k6: true

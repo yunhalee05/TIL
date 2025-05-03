@@ -1,0 +1,16 @@
+{{- if .Values.components.grafanaInfluxdb }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-influxdb
+spec:
+  selector:
+    app: grafana-influxdb
+  ports:
+    - name: grafana
+      port: 3000
+      targetPort: 3000
+    - name: influxdb
+      port: 8086
+      targetPort: 8086
+{{- end }}
