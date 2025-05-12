@@ -139,4 +139,21 @@ class CoroutineStartTest {
             println("결과 : $result")
         }
     }
+
+    @Test
+    fun test() {
+        runBlocking {
+            println("runBlocking started")
+
+            val result = suspendCancellableCoroutine<String> { continuation ->
+                println("suspending...")
+                thread {
+                    Thread.sleep(500)
+                    continuation.resume("Hello from thread!")
+                }
+            }
+
+            println("result: $result")
+        }
+    }
 }
